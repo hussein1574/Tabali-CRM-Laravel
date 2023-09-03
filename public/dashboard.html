@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tabali CRM - Dashboard</title>
+    <link href="fonts/stylesheet.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
+    <link href="css/queries.css" rel="stylesheet" />
+    <script defer src="js/script.js"></script>
+  </head>
+  <body>
+    <div class="page">
+      <header class="page-header">
+        <div class="heading-nav">
+          <div class="left-heading">
+            <button class="btn-mobile-nav">
+              <ion-icon class="icon-mobile-nav" name="menu-outline"></ion-icon>
+              <ion-icon class="icon-mobile-nav" name="close-outline"></ion-icon>
+            </button>
+            <picture class="logo-left">
+              <source srcset="imgs/logo-white.webp" type="image/webp" />
+              <source srcset="imgs/logo-white.png" type="image/png" />
+              <img
+                class="logo-dashboard"
+                src="img/logo-white.png"
+                alt="Tabali logo"
+              />
+            </picture>
+            <ul class="nav-items">
+              <li class="nav-item nav-item-cta">
+                <a href="dashboard.html">Dashboard</a>
+              </li>
+              <li class="nav-item"><a href="teams.html">Teams</a></li>
+              <li class="nav-item"><a href="tasks.html">Tasks</a></li>
+              <li class="nav-item">
+                <a href="users.html">Users</a>
+              </li>
+            </ul>
+          </div>
+          <picture class="logo-center">
+            <source srcset="imgs/logo-white.webp" type="image/webp" />
+            <source srcset="imgs/logo-white.png" type="image/png" />
+            <img
+              class="logo-dashboard"
+              src="img/logo-white.png"
+              alt="Tabali logo"
+            />
+          </picture>
+          <div class="right-heading">
+            <form>
+              <button title="Logout" class="profile">
+                <ion-icon class="logout-icon" name="log-out-outline"></ion-icon>
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div class="heading-bar">
+          <h1 class="main-heading">Dashboard</h1>
+          <!-- <button class="btn">Add widget</button> -->
+        </div>
+      </header>
+      <main>
+        <section class="stats-section">
+          <div class="stats">
+            <div class="stats-card">
+              <p class="stat-desc">Tasks this month</p>
+              <p class="stat-value">71</p>
+            </div>
+            <div class="stats-card">
+              <p class="stat-desc">Team members</p>
+              <p class="stat-value">3</p>
+            </div>
+            <div class="stats-card">
+              <p class="stat-desc">Today deadlines</p>
+              <p class="stat-value">2</p>
+            </div>
+          </div>
+        </section>
+        <section class="data-section">
+          <div class="data">
+            <div class="data-card scrollable">
+              <header class="data-card-header">
+                <ion-icon
+                  class="data-card-icon tasks-icon"
+                  name="list-circle-outline"
+                ></ion-icon>
+                <h2 class="data-card-title">Tasks</h2>
+              </header>
+              <ul class="data-list">
+                <li class="data-item">
+                  <a href="#">
+                    <h3 class="data-title">Task title</h3>
+                    <p class="data-desc">Task description</p>
+                  </a>
+                  <p class="data-additional">Deadline: 9/1/2023</p>
+                </li>
+                <li class="data-item">
+                  <a href="#">
+                    <h3 class="data-title">Task title</h3>
+                    <p class="data-desc">Task description</p>
+                  </a>
+                  <p class="data-additional">Deadline: 9/1/2023</p>
+                </li>
+                <li class="data-item">
+                  <a href="#">
+                    <h3 class="data-title">Task title</h3>
+                    <p class="data-desc">Task description</p>
+                  </a>
+                  <p class="data-additional">Deadline: 9/1/2023</p>
+                </li>
+                <li class="data-item">
+                  <a href="#">
+                    <h3 class="data-title">Task title</h3>
+                    <p class="data-desc">Task description</p>
+                  </a>
+                  <p class="data-additional">Deadline: 9/1/2023</p>
+                </li>
+                <li class="data-item">
+                  <a href="#">
+                    <h3 class="data-title">Task title</h3>
+                    <p class="data-desc">Task description</p>
+                  </a>
+                  <p class="data-additional">Deadline: 9/1/2023</p>
+                </li>
+                <li class="data-item">
+                  <a href="#">
+                    <h3 class="data-title">Task title</h3>
+                    <p class="data-desc">Task description</p>
+                  </a>
+                  <p class="data-additional">Deadline: 9/1/2023</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="data">
+            <div class="data-card team-card">
+              <header class="data-card-header">
+                <ion-icon
+                  class="data-card-icon team-icon"
+                  name="people-circle-outline"
+                ></ion-icon>
+                <h2 class="data-card-title">Team</h2>
+              </header>
+              <ul class="data-list">
+                <li class="data-item">
+                  <div>
+                    <h3 class="data-title">Joe Bloogs</h3>
+                    <p class="data-desc">joe@tabali.com</p>
+                  </div>
+                  <a href="#" class="data-additional">Team name</a>
+                </li>
+                <li class="data-item">
+                  <div>
+                    <h3 class="data-title">Joe Bloogs</h3>
+                    <p class="data-desc">joe@tabali.com</p>
+                  </div>
+                  <a href="#" class="data-additional">Team name</a>
+                </li>
+                <li class="data-item">
+                  <div>
+                    <h3 class="data-title">Joe Bloogs</h3>
+                    <p class="data-desc">joe@tabali.com</p>
+                  </div>
+                  <a href="#" class="data-additional">Team name</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </main>
+      <footer>
+        <p class="copyright">
+          Copyright &copy; <span class="year">2023</span> &ThinSpace; by Hussein
+          Medhat, Inc. All rights reserved.
+        </p>
+      </footer>
+    </div>
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+  </body>
+</html>

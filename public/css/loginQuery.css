@@ -1,0 +1,12 @@
+@media (max-width: 27em) {
+  footer {
+    margin: 0 auto;
+    bottom: 0;
+  }
+  .flex-container:last-child {
+    margin-bottom: 1.5rem;
+  }
+  .flex-container {
+    margin-top: 0.8rem;
+  }
+}
