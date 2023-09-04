@@ -865,14 +865,13 @@ a.data-additional:active {
     color: #fff;
 }
 .task-priority--low {
-    background: #67cb65;
+    background: #169583;
 }
 .task-priority--normal {
-    background: #d9e5f9;
-    color: #000;
+    background: #f3a51d;
 }
 .task-priority--severe {
-    background: #e74444;
+    background: #b8272c;
 }
 .btn--task {
     padding: 1.5rem 2rem;
