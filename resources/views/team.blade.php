@@ -2,15 +2,22 @@
 @section('title', 'Dashboard')
 @section('username', Auth::user()->name)
 
-@section('heading-bar')
-<h1 class="main-heading"><a class='heading-link' href="/team?id={{$team['id']}}">{{$team['name']}}</a></h1>
-<button class="btn btn--new">Add team member</button>
-@endsection
-
 @php
+use App\Models\UsersTeam;
 $currentPage = $members->currentPage();
 $lastPage = $members->lastPage();
+$teamRole = UsersTeam::where('user_id', Auth::user()->id)->where('team_id', $team['id'])->first()->team_role;
+$isAdmin = Auth::user()->role == 'Admin' || $teamRole == 'Team Admin';
 @endphp
+
+@section('heading-bar')
+<h1 class="main-heading"><a class='heading-link' href="/team?id={{$team['id']}}">{{$team['name']}}</a></h1>
+@if($isAdmin)
+<button class="btn btn--new">Add team member</button>
+@endif
+@endsection
+
+
 
 @section('main')
 @if (session('success'))
@@ -76,9 +83,11 @@ $lastPage = $members->lastPage();
                         <h3 class="data-role-title">Role</h3>
                         <p class="data-role-desc">{{$member['team_role']}}</p>
                     </div>
+                    @if($isAdmin)
                     <button class="settings settings-open-list">
                         <ion-icon class="settings-icon" name="settings-outline"></ion-icon>
                     </button>
+                    @endif
                     <div class="settings-nav">
                         <ul class="settings-list">
                             <li>
@@ -170,7 +179,7 @@ $lastPage = $members->lastPage();
                 <input hidden id='team_id' name='team_id' value='{{$team['id']}}' />
                 <label class="input-label" for="user_id">Their email address</label>
                 <select class="input-box" name="user_id" id="user_id">
-                    <option value='' disabled>Choose a user</option>
+                    <option value='' disabled="disabled">Choose a user</option>
                     @foreach($users as $user)
                     <option value="{{$user['id']}}">{{$user['email']}}</option>
                     @endforeach

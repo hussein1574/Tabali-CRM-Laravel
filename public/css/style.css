@@ -1019,7 +1019,7 @@ a.data-additional:active {
     color: #b42430;
 }
 .alert-success {
-    color: #a8d4ad;
+    color: #71d47d;
 }
 .input-danger {
     border: 1px solid #b42430;
@@ -1040,7 +1040,9 @@ a.data-additional:active {
 }
 .settings-option {
     border: none;
+    background-color: transparent;
     transition: all 0.3s;
+    cursor: pointer;
 }
 .settings-option:hover,
 .settings-option:active {

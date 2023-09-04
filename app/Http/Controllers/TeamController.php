@@ -21,11 +21,8 @@ class TeamController extends Controller
         if ($user->role === 'Admin') {
             $teams = Team::paginate(9);
         } else {
-            $teams = $user->userTeams()->with('team')->get()->pluck('team');
-            $currentPage = $request->query('page', 1);
-            $perPage = 9;
-            $offset = ($currentPage - 1) * $perPage;
-            $teams = $teams->forPage($currentPage, $perPage);
+            $teamIds = $user->userTeams()->pluck('team_id');
+            $teams = Team::whereIn('id', $teamIds)->paginate(9);
         }
         return view('teams', compact('teams'));
     }
@@ -92,7 +89,7 @@ class TeamController extends Controller
         if ($userTeamRecord->team_role == 'Member') {
             $userTeamRecord->team_role = 'Team Admin';
         } else {
-            $userTeamRecord->team_role = 'Team Admin';
+            $userTeamRecord->team_role = 'Member';
         }
         $userTeamRecord->save();
         return redirect()->back()->with('success', "User role changed successfully");

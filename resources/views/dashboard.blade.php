@@ -78,7 +78,7 @@ if(in_array(Auth::user()->name,$team['members'])) $teamMembersCount -= 1;
                         <h3 class="data-title">{{$member}}</h3>
                         <p class="data-desc">{{$email}}</p>
                     </div>
-                    <a href="#" class="data-additional">{{$team['name']}}</a>
+                    <a href="/team?id={{$team['id']}}" class="data-additional">{{$team['name']}}</a>
                 </li>
                 @endforeach
                 @endforeach
