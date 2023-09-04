@@ -71,6 +71,9 @@
     html {
         font-size: 43.75%;
     }
+    .hide {
+        display: none;
+    }
 }
 @media (max-width: 27em) {
     html {
