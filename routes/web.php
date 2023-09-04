@@ -28,7 +28,7 @@ Route::middleware('auth')->group(function () {
     Route::any('/teams/search', [TeamController::class, 'search'])->name('teams-search');
     Route::get('/team', [TeamController::class, 'teamIndex'])->name('team');
     Route::any('/team/search', [TeamController::class, 'searchMembers'])->name('member-search');
-    Route::put('/toggle-team-admin', [TeamController::class, 'toogleTeamAdmin'])->name('toggle-team-admin');
+    Route::put('/toggle-team-admin', [TeamController::class, 'toggleTeamAdmin'])->name('toggle-team-admin');
     Route::put('/remove-member', [TeamController::class, 'removeTeamMember'])->name('remove-member');
     Route::put('/add-member', [TeamController::class, 'addTeamMember'])->name('add-member');
 });

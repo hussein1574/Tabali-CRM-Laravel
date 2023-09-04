@@ -84,7 +84,7 @@ class TeamController extends Controller
             return $this->index($request);
         }
     }
-    public function toogleTeamAdmin(Request $request): RedirectResponse
+    public function toggleTeamAdmin(Request $request): RedirectResponse
     {
         $userTeamRecord = UsersTeam::where('team_id', $request->team_id)->where('user_id', $request->user_id)->first();
         if ($userTeamRecord->team_role == 'Member') {
