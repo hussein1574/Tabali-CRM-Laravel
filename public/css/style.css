@@ -221,8 +221,11 @@ footer {
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 2rem;
 }
-
+.white-font {
+    color: #fff !important;
+}
 .profile,
 .profile:link,
 .profile:visited {
@@ -284,7 +287,7 @@ footer {
     box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.08);
 }
 .stat-desc {
-    color: #a9adb7;
+    color: #8e919b;
     font-size: 2rem;
     font-weight: 600;
 }
@@ -364,12 +367,13 @@ footer {
     letter-spacing: -0.048rem;
 }
 .data-desc {
-    color: #a9adb7;
+    color: #8e919b;
     font-size: 1.3rem;
     font-weight: 300;
+    width: 26rem;
 }
 .data-role-title {
-    color: #a9adb7;
+    color: #8e919b;
     font-size: 1.3rem;
     font-weight: 300;
     letter-spacing: -0.048rem;
@@ -439,7 +443,7 @@ a.data-additional:active {
     padding: 1rem 2rem;
     font-weight: 600;
     text-decoration: none;
-    color: #a9adb7;
+    color: #8e919b;
     transition: all 0.3s;
 }
 .tab-cta,
@@ -615,7 +619,9 @@ a.data-additional:active {
 }
 
 /** Modal **/
-.modal-holder {
+
+.modal-holder,
+.modal-holder-message {
     z-index: 1;
     background-color: rgba(27, 27, 27, 0.116);
     backdrop-filter: blur(5px);
@@ -678,7 +684,10 @@ a.data-additional:active {
 
 .btn-close,
 .btn-close:link,
-.btn-close:visited {
+.btn-close:visited,
+.btn-close-message,
+.btn-close-message:link,
+.btn-close-message:visited {
     position: absolute;
     top: 5%;
     right: 5%;
@@ -694,7 +703,9 @@ a.data-additional:active {
     transition: all 0.3s;
 }
 .btn-close:hover,
-.btn-close:active {
+.btn-close:active,
+.btn-close-message:hover,
+.btn-close-message:active {
     color: #f3a51d;
 }
 
@@ -1019,4 +1030,30 @@ a.data-additional:active {
 }
 .top-gap {
     margin-top: 2rem;
+}
+
+.nav-settings-open {
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+    transform: translateX(0);
+}
+.settings-option {
+    border: none;
+    transition: all 0.3s;
+}
+.settings-option:hover,
+.settings-option:active {
+    color: #6c6c6c;
+}
+.heading-link,
+.heading-link:link,
+.heading-link:visited {
+    text-decoration: none;
+    color: #000;
+    transition: all 0.3s;
+}
+.heading-link:hover,
+.heading-link:active {
+    color: #f3a51d;
 }

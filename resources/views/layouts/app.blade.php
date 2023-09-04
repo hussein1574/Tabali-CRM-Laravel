@@ -27,14 +27,15 @@
           </picture>
           <ul class="nav-items">
             <li class="nav-item @if(Route::is('dashboard')) nav-item-cta @endif">
-              <a href="dashboard.html">Dashboard</a>
+              <a href="/dashboard">Dashboard</a>
             </li>
-            <li class="nav-item @if(Route::is('teams') || Route::is('team')) nav-item-cta @endif"><a
-                href="teams.html">Teams</a></li>
+            <li
+              class="nav-item @if(Route::is('teams') || Route::is('team') || Route::is('team-search'))  nav-item-cta @endif">
+              <a href="/teams">Teams</a></li>
             <li class="nav-item @if(Route::is('tasks') || Route::is('task')) nav-item-cta @endif"><a
-                href="tasks.html">Tasks</a></li>
+                href="/tasks">Tasks</a></li>
             <li class="nav-item @if(!Auth::user()->role == 'Admin') hidden @endif ">
-              <a href="users.html">Users</a>
+              <a href="/users">Users</a>
             </li>
           </ul>
         </div>
@@ -44,6 +45,7 @@
           <img class="logo-dashboard" src="{{url('/')}}/img/logo-white.png" alt="Tabali logo" />
         </picture>
         <div class="right-heading">
+          <p class="form-title white-font hide">Welcome @yield('username')</p>
           <form method="POST" action="/logout">
             @csrf
             @method('POST')
@@ -67,6 +69,7 @@
         Medhat, Inc. All rights reserved.
       </p>
     </footer>
+    @yield('modals')
   </div>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>

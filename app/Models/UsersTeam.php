@@ -10,12 +10,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class UsersTeam extends Model
 {
     use HasFactory, HasUuids;
-            /**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
+        'user_id',
+        'team_id',
         'team_role'
     ];
 

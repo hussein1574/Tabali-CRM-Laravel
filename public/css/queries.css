@@ -2,6 +2,9 @@
     html {
         font-size: 50%;
     }
+    .data-desc {
+        width: 50rem;
+    }
     .task-body {
         width: 100%;
         flex-direction: column;
@@ -72,6 +75,12 @@
 @media (max-width: 27em) {
     html {
         font-size: 37.5%;
+    }
+    .hide {
+        display: none;
+    }
+    .data-desc {
+        width: 40rem;
     }
     .search-section {
         flex-direction: column;

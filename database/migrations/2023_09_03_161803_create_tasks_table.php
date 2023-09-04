@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('name');
             $table->longText('description');
-            $table->enum('priority', ['Low','Normal','Severe'])->default('Normal');
+            $table->enum('priority', ['Low', 'Normal', 'Severe'])->default('Normal');
             $table->dateTime('deadline');
             $table->timestamps();
         });
