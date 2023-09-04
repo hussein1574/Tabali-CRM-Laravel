@@ -8,6 +8,11 @@
   <link href="{{url('/')}}/fonts/stylesheet.css" rel="stylesheet" />
   <link href="{{url('/')}}/css/style.css" rel="stylesheet" />
   <link href="{{url('/')}}/css/loginQuery.css" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Rubik:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
 </head>
 
 <body>

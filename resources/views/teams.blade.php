@@ -56,9 +56,9 @@ $lastPage = $teams->lastPage();
 </section>
 <section class="page-items-section">
     @if(count($teams) == 0)
-    <div class="modal">
+    <div class="modal no-box-shadow margin-top-medium">
         <ion-icon class='danger-icon' name="alert-outline"></ion-icon>
-        <h2 class="form-title">No Results Found</h2>
+        <h2 class="form-title">No Teams Found</h2>
     </div>
     @else
     <div class="page-items">

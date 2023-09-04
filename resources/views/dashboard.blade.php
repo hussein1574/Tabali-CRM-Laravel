@@ -49,6 +49,12 @@ if(in_array(Auth::user()->name,$team['members'])) $teamMembersCount -= 1;
                 <ion-icon class="data-card-icon tasks-icon" name="list-circle-outline"></ion-icon>
                 <h2 class="data-card-title">Tasks</h2>
             </header>
+            @if(count($tasks) == 0)
+            <div class="modal no-box-shadow">
+                <ion-icon class='orange-icon' name="alert-outline"></ion-icon>
+                <h2 class="form-title">No Tasks Yet</h2>
+            </div>
+            @else
             <ul class="data-list">
                 @foreach($tasks as $task)
                 <li class="data-item">
@@ -61,6 +67,7 @@ if(in_array(Auth::user()->name,$team['members'])) $teamMembersCount -= 1;
                 </li>
                 @endforeach
             </ul>
+            @endif
         </div>
     </div>
     <div class="data">
@@ -69,6 +76,12 @@ if(in_array(Auth::user()->name,$team['members'])) $teamMembersCount -= 1;
                 <ion-icon class="data-card-icon team-icon" name="people-circle-outline"></ion-icon>
                 <h2 class="data-card-title">Team</h2>
             </header>
+            @if(count($teams) == 0)
+            <div class="modal no-box-shadow">
+                <ion-icon class='green-icon ' name="alert-outline"></ion-icon>
+                <h2 class="form-title">Not In Any Team Yet</h2>
+            </div>
+            @else
             <ul class="data-list">
                 @foreach($teams as $team)
                 @foreach($team['members'] as $email => $member)
@@ -83,6 +96,7 @@ if(in_array(Auth::user()->name,$team['members'])) $teamMembersCount -= 1;
                 @endforeach
                 @endforeach
             </ul>
+            @endif
         </div>
     </div>
 </section>

@@ -8,6 +8,11 @@
   <link href="{{url('/')}}/fonts/stylesheet.css" rel="stylesheet" />
   <link href="{{url('/')}}/css/style.css" rel="stylesheet" />
   <link href="{{url('/')}}/css/queries.css" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Rubik:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
   <script defer src="{{url('/')}}/js/script.js"></script>
 </head>
 
@@ -31,7 +36,8 @@
             </li>
             <li
               class="nav-item @if(Route::is('teams') || Route::is('team') || Route::is('team-search'))  nav-item-cta @endif">
-              <a href="/teams">Teams</a></li>
+              <a href="/teams">Teams</a>
+            </li>
             <li class="nav-item @if(Route::is('tasks') || Route::is('task')) nav-item-cta @endif"><a
                 href="/tasks">Tasks</a></li>
             <li class="nav-item @if(!Auth::user()->role == 'Admin') hidden @endif ">
@@ -45,7 +51,9 @@
           <img class="logo-dashboard" src="{{url('/')}}/img/logo-white.png" alt="Tabali logo" />
         </picture>
         <div class="right-heading">
-          <p class="form-title white-font hide">Welcome @yield('username')</p>
+          <p class="welcome-title white-font hide"><span class='smaller-font'>Welcome</span>
+            <span>@yield('username')</span>
+          </p>
           <form method="POST" action="/logout">
             @csrf
             @method('POST')

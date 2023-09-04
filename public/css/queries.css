@@ -71,6 +71,12 @@
     html {
         font-size: 43.75%;
     }
+    .page-data-list {
+        margin: 0;
+    }
+    .right-part {
+        width: 50%;
+    }
     .hide {
         display: none;
     }
@@ -78,6 +84,9 @@
 @media (max-width: 27em) {
     html {
         font-size: 37.5%;
+    }
+    .page-data-list {
+        margin: 0;
     }
     .hide {
         display: none;

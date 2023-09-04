@@ -6,8 +6,8 @@
 use App\Models\UsersTeam;
 $currentPage = $members->currentPage();
 $lastPage = $members->lastPage();
-$teamRole = UsersTeam::where('user_id', Auth::user()->id)->where('team_id', $team['id'])->first()->team_role;
-$isAdmin = Auth::user()->role == 'Admin' || $teamRole == 'Team Admin';
+$isAdmin = Auth::user()->role == 'Admin' || UsersTeam::where('user_id', Auth::user()->id)->where('team_id',
+$team['id'])->first()->team_role == 'Team Admin';
 @endphp
 
 @section('heading-bar')
@@ -65,16 +65,16 @@ $isAdmin = Auth::user()->role == 'Admin' || $teamRole == 'Team Admin';
 </section>
 <section class="page-items-section">
     @if(count($members) == 0)
-    <div class="modal">
+    <div class="modal no-box-shadow margin-top-medium">
         <ion-icon class='danger-icon' name="alert-outline"></ion-icon>
-        <h2 class="form-title">No Results Found</h2>
+        <h2 class="form-title">No Members Found</h2>
     </div>
     @else
     <div class="page-items">
         <ul class="page-data-list">
             @foreach($members->items() as $member)
             <li class="page-data-item">
-                <div>
+                <div class="left-part">
                     <h3 class="data-title">{{$member->user()->first()['name']}}</h3>
                     <p class="data-desc">{{$member->user()->first()['email']}}</p>
                 </div>
