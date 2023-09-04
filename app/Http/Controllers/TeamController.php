@@ -63,7 +63,8 @@ class TeamController extends Controller
         if ($user->role === 'Admin') {
             $teams = Team::where('name', 'LIKE', '%' . $searchMessage . '%')->paginate(9);
         } else {
-            $teams = $user->userTeams()->where('name', 'LIKE', '%' . $searchMessage . '%')->paginate(9);
+            $teamIds = $user->userTeams()->pluck('team_id');
+            $teams = Team::whereIn('id', $teamIds)->where('name', 'LIKE', '%' . $searchMessage . '%')->paginate(9);
         }
         return view('teams', compact('teams', 'searchMessage'));
     }
