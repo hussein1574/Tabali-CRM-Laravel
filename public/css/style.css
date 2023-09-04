@@ -277,7 +277,7 @@ footer {
 }
 .main-heading {
     font-size: 3.9rem;
-    font-weight: 1000;
+    font-weight: 600;
 }
 .stats-section {
     padding: 3.2rem 0 1.5rem 0;
@@ -516,7 +516,7 @@ a.data-additional:active {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.05);
+    box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.1);
     /* border: 0.1px solid rgba(0, 0, 0, 0.08); */
 }
 .page-data-title,
@@ -887,28 +887,28 @@ a.data-additional:active {
     font-size: 2rem;
 }
 .btn--accept {
-    background-color: #a8d4ad;
+    background-color: #169583;
     /* background-color: #67cb65; */
     color: #fff;
 }
 .btn--reject {
-    background-color: #f97068;
+    background-color: #b8272c;
     /* background-color: #e74444; */
     color: #fff;
 }
 .btn--parti {
-    background-color: #071013;
+    background-color: #674030;
     /* background-color: rgb(0, 0, 0); */
     color: #fff;
 }
 .btn--delete {
-    background-color: #780116;
-    /* background-color: #f80000; */
+    /* background-color: #780116; */
+    background-color: #f80000;
     color: #fff;
 }
 
 .btn--edit {
-    background-color: #6f8695;
+    background-color: #f3a51d;
     color: #fff;
     /* background-color: #d9e5f9; */
 }

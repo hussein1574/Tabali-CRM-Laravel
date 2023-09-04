@@ -13,16 +13,18 @@ use Illuminate\Http\RedirectResponse;
 
 class TeamController extends Controller
 {
+
     public function index(Request $request): View
     {
+        $recsPerPage = config('constants.RECS_PER_PAGE');
         $user = $request->user();
         if (!$user) return redirect('/');
         $teams = '';
         if ($user->role === 'Admin') {
-            $teams = Team::paginate(9);
+            $teams = Team::paginate($recsPerPage);
         } else {
             $teamIds = $user->userTeams()->pluck('team_id');
-            $teams = Team::whereIn('id', $teamIds)->paginate(9);
+            $teams = Team::whereIn('id', $teamIds)->paginate($recsPerPage);
         }
         return view('teams', compact('teams'));
     }
@@ -56,24 +58,26 @@ class TeamController extends Controller
     }
     public function search(Request $request): View
     {
+        $recsPerPage = config('constants.RECS_PER_PAGE');
         $user = $request->user();
         if (!$user) return redirect('/');
         $searchMessage = $request->search_text;
         $teams = '';
         if ($user->role === 'Admin') {
-            $teams = Team::where('name', 'LIKE', '%' . $searchMessage . '%')->paginate(9);
+            $teams = Team::where('name', 'LIKE', '%' . $searchMessage . '%')->paginate($recsPerPage);
         } else {
             $teamIds = $user->userTeams()->pluck('team_id');
-            $teams = Team::whereIn('id', $teamIds)->where('name', 'LIKE', '%' . $searchMessage . '%')->paginate(9);
+            $teams = Team::whereIn('id', $teamIds)->where('name', 'LIKE', '%' . $searchMessage . '%')->paginate($recsPerPage);
         }
         return view('teams', compact('teams', 'searchMessage'));
     }
     public function teamIndex(Request $request): View
     {
+        $recsPerPage = config('constants.RECS_PER_PAGE');
         $team = Team::where('id', $request->query('id'))->first();
         if ($team) {
             $teamArray = $team->toArray();
-            $members = $team->teamUsers()->paginate(9);
+            $members = $team->teamUsers()->paginate($recsPerPage);
             $membersArray = $team->teamUsers()->with('user')->get()->pluck('user.email', 'user.id')->toArray();
             $team = $teamArray;
             $users = User::get()->map(function ($user) use ($membersArray) {
@@ -112,6 +116,7 @@ class TeamController extends Controller
     }
     public function searchMembers(Request $request): View
     {
+        $recsPerPage = config('constants.RECS_PER_PAGE');
         $searchMessage = $request->search_text;
         $team = Team::where('id', $request->team_id)->first();
         if ($team) {
@@ -121,7 +126,7 @@ class TeamController extends Controller
                     $query->where('name', 'LIKE', '%' . $searchMessage . '%')
                         ->orWhere('email', 'LIKE', '%' . $searchMessage . '%');
                 })
-                ->paginate(9);
+                ->paginate($recsPerPage);
             $membersArray = $team->teamUsers()->with('user')->get()->pluck('user.email', 'user.id')->toArray();
             $team = $teamArray;
             $users = User::get()->map(function ($user) use ($membersArray) {

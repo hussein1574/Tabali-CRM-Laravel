@@ -1,105 +1,102 @@
-const btnNav = document.querySelector(".btn-mobile-nav");
-const header = document.querySelector(".left-heading");
-const btnAdd = document.querySelector(".btn--new");
-const modals = document.querySelectorAll(".modal-holder");
-const btnsCloseModal = document.querySelectorAll(".btn-close");
-const btnsCloseMessageModal = document.querySelectorAll(".btn-close-message");
-const btnUserModal = document.querySelector(".user-settings");
+const select = (selector) => document.querySelector(selector);
+const selectAll = (selector) => document.querySelectorAll(selector);
 
-const btnAddParti = document.querySelector(".btn--parti");
-const addModal = document.querySelector(".modal--add");
+const btnNav = select(".btn-mobile-nav");
+const header = select(".left-heading");
+const btnAdd = select(".btn--new");
+const modals = selectAll(".modal-holder");
+const btnsCloseModal = selectAll(".btn-close");
+const btnsCloseMessageModal = selectAll(".btn-close-message");
+const btnUserModal = select(".user-settings");
 
-const btnEditTask = document.querySelector(".btn--edit");
-const editModal = document.querySelector(".modal--edit");
+const btnAddParti = select(".btn--parti");
+const addModal = select(".modal--add");
 
-const btnDeleteTask = document.querySelector(".btn--delete");
-const deleteModal = document.querySelector(".modal--delete");
+const btnEditTask = select(".btn--edit");
+const editModal = select(".modal--edit");
 
-const typeSelect = document.querySelector(".type-select");
-const usersForm = document.querySelector(".input-users");
-const teamsForm = document.querySelector(".input-teams");
+const btnDeleteTask = select(".btn--delete");
+const deleteModal = select(".modal--delete");
 
-const topHeader = document.querySelector("header");
+const typeSelect = select(".type-select");
+const usersForm = select(".input-users");
+const teamsForm = select(".input-teams");
 
-const settingsBtns = document.querySelectorAll(".settings-open-list");
-const settingsNavs = document.querySelectorAll(".settings-nav");
+const topHeader = select("header");
+
+const settingsBtns = selectAll(".settings-open-list");
+const settingsNavs = selectAll(".settings-nav");
 
 const body = document.body;
 
-if (settingsBtns)
-    settingsBtns.forEach((btn, i) =>
-        btn.addEventListener("click", function (e) {
-            e.preventDefault();
-            settingsNavs[i].classList.toggle("nav-settings-open");
-        })
-    );
-if (typeSelect)
-    typeSelect.addEventListener("change", function () {
-        if (this.value === "user") {
-            usersForm.classList.remove("hidden");
-            teamsForm.classList.add("hidden");
+const addEventListenerIf = (element, event, callback) => {
+    if (element) {
+        element.addEventListener(event, callback);
+    }
+};
+
+settingsBtns.forEach((btn, i) => {
+    addEventListenerIf(btn, "click", (e) => {
+        e.preventDefault();
+        settingsNavs[i].classList.toggle("nav-settings-open");
+    });
+});
+
+addEventListenerIf(typeSelect, "change", () => {
+    usersForm.classList.toggle("hidden", typeSelect.value !== "user");
+    teamsForm.classList.toggle("hidden", typeSelect.value !== "team");
+});
+
+addEventListenerIf(btnAddParti, "click", (e) => {
+    e.preventDefault();
+    addModal.classList.add("appear");
+});
+
+addEventListenerIf(btnEditTask, "click", (e) => {
+    e.preventDefault();
+    editModal.classList.add("appear");
+});
+
+addEventListenerIf(btnDeleteTask, "click", (e) => {
+    e.preventDefault();
+    deleteModal.classList.add("appear");
+});
+
+addEventListenerIf(btnNav, "click", (e) => {
+    e.preventDefault();
+    header.classList.toggle("nav-open");
+});
+
+addEventListenerIf(btnAdd, "click", (e) => {
+    e.preventDefault();
+    modals[0].classList.add("appear");
+});
+
+btnsCloseModal.forEach((btn) => {
+    addEventListenerIf(btn, "click", (e) => {
+        e.preventDefault();
+        const currModal = btn.closest(".modal-holder");
+        currModal.classList.remove("appear");
+    });
+});
+
+btnsCloseMessageModal.forEach((btn) => {
+    addEventListenerIf(btn, "click", (e) => {
+        e.preventDefault();
+        const currModal = btn.closest(".modal-holder-message");
+        currModal.classList.remove("appear");
+    });
+});
+
+addEventListenerIf(btnUserModal, "click", (e) => {
+    e.preventDefault();
+    modals[0].classList.add("appear");
+});
+
+modals.forEach((modal) => {
+    addEventListenerIf(modal, "click", (e) => {
+        if (e.target.classList.contains("modal-holder")) {
+            modal.classList.remove("appear");
         }
-        if (this.value === "team") {
-            teamsForm.classList.remove("hidden");
-            usersForm.classList.add("hidden");
-        }
     });
-if (btnAddParti)
-    btnAddParti.addEventListener("click", function (e) {
-        e.preventDefault();
-        addModal.classList.add("appear");
-    });
-
-if (btnEditTask)
-    btnEditTask.addEventListener("click", function (e) {
-        e.preventDefault();
-        editModal.classList.add("appear");
-    });
-
-if (btnDeleteTask)
-    btnDeleteTask.addEventListener("click", function (e) {
-        e.preventDefault();
-        deleteModal.classList.add("appear");
-    });
-if (btnNav)
-    btnNav.addEventListener("click", function (e) {
-        e.preventDefault();
-        header.classList.toggle("nav-open");
-    });
-
-if (btnAdd)
-    btnAdd.addEventListener("click", function (e) {
-        e.preventDefault();
-        modals[0].classList.add("appear");
-    });
-
-if (btnsCloseModal)
-    btnsCloseModal.forEach((btn) => {
-        btn.addEventListener("click", function (e) {
-            e.preventDefault();
-            const currModal = this.closest(".modal-holder");
-            currModal.classList.remove("appear");
-        });
-    });
-if (btnsCloseMessageModal)
-    btnsCloseMessageModal.forEach((btn) => {
-        btn.addEventListener("click", function (e) {
-            e.preventDefault();
-            const currModal = this.closest(".modal-holder-message");
-            currModal.classList.remove("appear");
-        });
-    });
-
-if (btnUserModal)
-    btnUserModal.addEventListener("click", function (e) {
-        e.preventDefault();
-        modals[0].classList.add("appear");
-    });
-
-if (modals)
-    modals.forEach((modal) =>
-        modal.addEventListener("click", function (e) {
-            if (e.target.classList.contains("modal-holder"))
-                modal.classList.remove("appear");
-        })
-    );
+});
