@@ -11,10 +11,16 @@ use Carbon\Carbon;
 
 $today = Carbon::today();
 $deadlinesCount = 0;
+$openedTasksCount = 0;
 foreach ($tasks as $task) {
+if($task['status'] != 'Closed')
+{
 if (Carbon::parse($task['deadline'])->isSameDay($today)) {
 $deadlinesCount++;
 }
+$openedTasksCount++;
+}
+
 }
 
 $teamMembersCount = 0;
@@ -29,8 +35,8 @@ if(in_array(Auth::user()->name,$team['members'])) $teamMembersCount -= 1;
 <section class="stats-section">
     <div class="stats">
         <div class="stats-card">
-            <p class="stat-desc">Tasks this month</p>
-            <p class="stat-value">{{ count($tasks)}}</p>
+            <p class="stat-desc">Current Tasks</p>
+            <p class="stat-value">{{ $openedTasksCount}}</p>
         </div>
         <div class="stats-card">
             <p class="stat-desc">Team members</p>
@@ -49,7 +55,7 @@ if(in_array(Auth::user()->name,$team['members'])) $teamMembersCount -= 1;
                 <ion-icon class="data-card-icon tasks-icon" name="list-circle-outline"></ion-icon>
                 <h2 class="data-card-title">Tasks</h2>
             </header>
-            @if(count($tasks) == 0)
+            @if($openedTasksCount == 0)
             <div class="modal no-box-shadow">
                 <ion-icon class='orange-icon' name="alert-outline"></ion-icon>
                 <h2 class="form-title">No Tasks Yet</h2>
@@ -57,6 +63,7 @@ if(in_array(Auth::user()->name,$team['members'])) $teamMembersCount -= 1;
             @else
             <ul class="data-list">
                 @foreach($tasks as $task)
+                @if($task['status'] != 'Closed')
                 <li class="data-item">
                     <a href="/task?id={{$task['id']}}">
                         <h3 class="data-title">{{ $task['name'] }}</h3>
@@ -65,6 +72,7 @@ if(in_array(Auth::user()->name,$team['members'])) $teamMembersCount -= 1;
                     <p class="data-additional">Deadline: {{\Carbon\Carbon::parse($task['deadline'])->toDateString();}}
                     </p>
                 </li>
+                @endif
                 @endforeach
             </ul>
             @endif
