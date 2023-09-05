@@ -1,6 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Dashboard')
-@section('username', Auth::user()->name)
+
 
 @php
 use App\Models\UsersTeam;
@@ -9,6 +8,8 @@ $lastPage = $members->lastPage();
 $isAdmin = Auth::user()->role == 'Admin' || UsersTeam::where('user_id', Auth::user()->id)->where('team_id',
 $team['id'])->first()->team_role == 'Team Admin';
 @endphp
+@section('title', $team['name'])
+@section('username', Auth::user()->name)
 
 @section('heading-bar')
 <h1 class="main-heading"><a class='heading-link' href="/team?id={{$team['id']}}">{{$team['name']}}</a></h1>
@@ -46,21 +47,17 @@ $team['id'])->first()->team_role == 'Team Admin';
 @endif
 
 <section class="search-section">
-    <form class="search" method="POST" action="{{ route('member-search') }}">
-        @csrf
-        @method('POST')
-        <input hidden id='team_id' name='team_id' value='{{$team['id']}}' />
-        @isset($searchMessage)
-        <input class="input-search" type="text" id="search_text" value='{{$searchMessage}}'
-            placeholder="Search for team" name="search_text" required />
+    <form class="search" method="GET" action="/team">
+        <input hidden name='id' value='{{$team['id']}}' id='id' />
+        @if(request()->query('search'))
+        <input class="input-search" type="text" id="search" value='{{request()->query('search')}}'
+            placeholder="Search for team" name="search" required />
         @else
-        <input class="input-search" type="text" id="search_text" placeholder="Search for team" name="search_text"
-            required />
-        @endisset
+        <input class="input-search" type="text" id="search" placeholder="Search for team" name="search" />
+        @endif
         <button class="btn-search">
             <ion-icon name="search-outline"></ion-icon>
         </button>
-
     </form>
 </section>
 <section class="page-items-section">

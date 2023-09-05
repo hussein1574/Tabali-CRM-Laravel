@@ -1,15 +1,17 @@
 @extends('layouts.app')
-@section('title', 'Teams')
+@section('title', 'Tasks')
 @section('username', Auth::user()->name)
 
 @section('heading-bar')
-<h1 class="main-heading"><a class='heading-link' href="/teams">Teams</a></h1>
-<button class="btn btn--new">New team</button>
+<h1 class="main-heading"><a class='heading-link' href="/tasks">Tasks</a></h1>
+<button class="btn btn--new">New task</button>
 @endsection
 
 @php
-$currentPage = $teams->currentPage();
-$lastPage = $teams->lastPage();
+$currentPage = $tasks->currentPage();
+$lastPage = $tasks->lastPage();
+$search = request()->query('search') ? '?search='. request()->query('search') . '&' : '?';
+$filter = request()->query('filter');
 @endphp
 
 @section('main')
@@ -39,12 +41,17 @@ $lastPage = $teams->lastPage();
 @endif
 
 <section class="search-section">
-    <form class="search" method="GET" action="/teams">
+    <div class="tabs">
+        <a class="tab @if($filter === 'Opened') tab-cta @endif" href="{{$search}}filter=Opened">Active</a>
+        <a class="tab @if($filter === 'Pending') tab-cta @endif" href="{{$search}}filter=Pending">Pending</a>
+        <a class="tab @if($filter === 'Closed') tab-cta @endif" href="{{$search}}filter=Closed">Closed</a>
+    </div>
+    <form class="search" method="GET" action="/tasks">
         @if(request()->query('search'))
         <input class="input-search" type="text" id="search" value='{{request()->query('search')}}'
             placeholder="Search for team" name="search" />
         @else
-        <input class="input-search" type="text" id="search" placeholder="Search for team" name="search" />
+        <input class="input-search" type="text" id="search" placeholder="Search for task" name="search" />
         @endif
         <button class="btn-search">
             <ion-icon name="search-outline"></ion-icon>
@@ -52,38 +59,39 @@ $lastPage = $teams->lastPage();
     </form>
 </section>
 <section class="page-items-section">
-    @if(count($teams) == 0)
-    <div class="modal no-box-shadow margin-top-medium">
-        <ion-icon class='danger-icon' name="alert-outline"></ion-icon>
-        <h2 class="form-title">No Teams Found</h2>
-    </div>
-    @else
     <div class="page-items">
+        @if(count($tasks) == 0)
+        <div class="modal no-box-shadow margin-top-medium">
+            <ion-icon class='danger-icon' name="alert-outline"></ion-icon>
+            <h2 class="form-title">No Tasks Found</h2>
+        </div>
+        @else
         <ul class="page-data-list">
-            @foreach($teams->items() as $team)
+            @foreach($tasks as $task)
             <li class="page-data-item">
                 <div>
-                    <a href="/team?id={{$team['id']}}" class="page-data-title">{{$team['name']}}</a>
+                    <h3 class="data-title">{{$task['name']}}</h3>
+                    <p class="data-desc">{{Str::limit($task['description'], 100)}}</p>
                 </div>
                 <div class="right-part">
-                    <p class="page-data-date">Created at:
-                        {{\Carbon\Carbon::parse($team['created_at'])->toDateString();}}</p>
-                    @if(Auth::user()->role == 'Admin')
-                    <form method="POST" action="/delete-team">
-                        @csrf
-                        @method('DELETE')
-                        <input hidden name='team_id' id='team_id' value={{$team['id']}} />
-                        <button class="settings">
-                            <ion-icon class="settings-icon" name="trash-outline"></ion-icon>
-                        </button>
-                    </form>
-                    @endif
+                    <div class="role">
+                        <h3 class="data-role-title">Status</h3>
+                        <p class="data-role-desc">{{$task['status']}}</p>
+                    </div>
+                    <div class="role">
+                        <h3 class="data-role-title">Last edit</h3>
+                        <p class="data-role-desc">{{\Carbon\Carbon::parse($task['updated_at'])->toDateString();}}</p>
+                    </div>
+                    <div class="role">
+                        <h3 class="data-role-title">Deadline</h3>
+                        <p class="data-role-desc">{{\Carbon\Carbon::parse($task['deadline'])->toDateString();}}</p>
+                    </div>
                 </div>
             </li>
             @endforeach
         </ul>
+        @endif
     </div>
-    @endif
 </section>
 @if($lastPage != 1)
 <section class="pagination-section">
@@ -135,13 +143,27 @@ $lastPage = $teams->lastPage();
 @section('modals')
 <div class="modal-holder">
     <div class="modal">
-        <h2 class="form-title">Create a team ?</h2>
-        <form class="sign-form" method="POST" action="/add-team">
-            @csrf
-            @method('POST')
+        <h2 class="form-title">Add a new task</h2>
+        <form class="sign-form">
             <div class="input-holder">
-                <label class="input-label" for="name">Team name</label>
-                <input class="input-box" id="name" type="text" name="name" required />
+                <label class="input-label" for="title">Task title</label>
+                <input class="input-box" id="title" type="text" name="title" required />
+            </div>
+            <div class="input-holder">
+                <label class="input-label" for="description">Task description</label>
+                <textarea class="input-box" id="description" name="description" rows="5" required></textarea>
+            </div>
+            <div class="input-holder">
+                <label class="input-label" for="piority">Task piority</label>
+                <select class="input-box" name="piority" id="piority">
+                    <option value="low">Low</option>
+                    <option value="normal">Normal</option>
+                    <option value="severe">Severe</option>
+                </select>
+            </div>
+            <div class="input-holder">
+                <label class="input-label" for="deadline">Task deadline</label>
+                <input class="input-box" id="deadline" type="datetime-local" name="deadline" required />
             </div>
             <button class="btn btn-add">
                 Add

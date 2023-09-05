@@ -14,11 +14,15 @@ class UserController extends Controller
 {
     public function index(Request $request): View
     {
+        $searchInput = $request->query('search');
         $dashboardController = new DashboardController();
         $recsPerPage = config('constants.RECS_PER_PAGE');
         $userIsAdmin = $request->user()->role == 'Admin';
         if (!$userIsAdmin) return $dashboardController->index($request);
-        $users = User::paginate($recsPerPage);;
+        $usersQuery = User::query();
+        if ($searchInput)
+            $this->search($searchInput, $usersQuery);
+        $users = $usersQuery->paginate($recsPerPage);
         return view('users', compact('users'));
     }
     public function edit(Request $request): RedirectResponse
@@ -52,16 +56,11 @@ class UserController extends Controller
             return redirect()->route('users')->with('error', 'Failed to delete user.');
         }
     }
-    public function search(Request $request): View
+    function search($searchInput, $usersQuery)
     {
-        $recsPerPage = config('constants.RECS_PER_PAGE');
-        $userIsAdmin = $request->user()->role == 'Admin';
-        if (!$userIsAdmin) return redirect('/');
-        $searchMessage = $request->search_text;
-        $users = User::where(function ($query) use ($searchMessage) {
-            $query->where('name', 'LIKE', '%' . $searchMessage . '%')
-                ->orWhere('email', 'LIKE', '%' . $searchMessage . '%');
-        })->paginate($recsPerPage);
-        return view('users', compact('users', 'searchMessage'));
+        return $usersQuery->where(function ($query) use ($searchInput) {
+            $query->where('name', 'LIKE', '%' . $searchInput . '%')
+                ->orWhere('email', 'LIKE', '%' . $searchInput . '%');
+        });
     }
 }

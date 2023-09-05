@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Dashboard')
+@section('title', 'Users')
 @section('username', Auth::user()->name)
 
 @section('heading-bar')
@@ -38,16 +38,13 @@ $lastPage = $users->lastPage();
 @endif
 
 <section class="search-section">
-    <form class="search" method="POST" action="/users/search">
-        @csrf
-        @method('POST')
-        @isset($searchMessage)
-        <input class="input-search" type="text" id="search_text" value='{{$searchMessage}}'
-            placeholder="Search for team" name="search_text" required />
+    <form class="search" method="GET" action="/users">
+        @if(request()->query('search'))
+        <input class="input-search" type="text" id="search" value='{{request()->query('search')}}'
+            placeholder="Search for team" name="search" />
         @else
-        <input class="input-search" type="text" id="search_text" placeholder="Search for a user" name="search_text"
-            required />
-        @endisset
+        <input class="input-search" type="text" id="search" placeholder="Search for a user" name="search" />
+        @endif
         <button class="btn-search">
             <ion-icon name="search-outline"></ion-icon>
         </button>
@@ -55,6 +52,12 @@ $lastPage = $users->lastPage();
 </section>
 <section class="page-items-section">
     <div class="page-items">
+        @if(count($users) == 0)
+        <div class="modal no-box-shadow margin-top-medium">
+            <ion-icon class='danger-icon' name="alert-outline"></ion-icon>
+            <h2 class="form-title">No Users Found</h2>
+        </div>
+        @else
         <ul class="page-data-list">
             @foreach($users as $user)
             <li class="page-data-item">
@@ -82,6 +85,7 @@ $lastPage = $users->lastPage();
             </li>
             @endforeach
         </ul>
+        @endif
     </div>
 </section>
 @if($lastPage != 1)

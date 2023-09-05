@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -20,9 +21,10 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware('auth')->group(function () {
-
+    // Dashboard Route
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+    // Teams Routes
     Route::get('/teams', [TeamController::class, 'index'])->name('teams');
     Route::post('/add-team', [TeamController::class, 'add'])->name('add-team');
     Route::delete('/delete-team', [TeamController::class, 'delete'])->name('delete-team');
@@ -33,7 +35,10 @@ Route::middleware('auth')->group(function () {
     Route::put('/remove-member', [TeamController::class, 'removeTeamMember'])->name('remove-member');
     Route::put('/add-member', [TeamController::class, 'addTeamMember'])->name('add-member');
 
+    // Users Routes
     Route::get('/users', [UserController::class, 'index'])->name('users');
     Route::put('/edit-user', [UserController::class, 'edit'])->name('edit-user');
-    Route::any('/users/search', [UserController::class, 'search'])->name('users-search');
+
+    // Tasks Routs
+    Route::get('/tasks', [TaskController::class, 'index'])->name('tasks');
 });
