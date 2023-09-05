@@ -1095,3 +1095,10 @@ a.data-additional:active {
 .color-brown {
     color: #674030 !important;
 }
+
+.button-form {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

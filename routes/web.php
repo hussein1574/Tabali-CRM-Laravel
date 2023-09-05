@@ -46,9 +46,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/delete-task', [TaskController::class, 'deleteTask'])->name('delete-task');
     Route::post('/accept-task', [TaskController::class, 'acceptTask'])->name('accept-task');
     Route::post('/reject-task', [TaskController::class, 'rejectTask'])->name('reject-task');
+    Route::delete('/delete-task-member', [TaskController::class, 'deleteTaskMember'])->name('delete-task-member');
 
 
     // Comments Routes
     Route::post('/add-comment', [CommentController::class, 'addComment'])->name('add-comment');
 });
-Route::delete('/delete-task-member', [TaskController::class, 'deleteTaskMember'])->name('delete-task-member');

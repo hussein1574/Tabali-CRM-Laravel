@@ -83,12 +83,14 @@ class TaskController extends Controller
     public function taskIndex(Request $request): View
     {
         $user = $request->user();
+        $taskId = $request->query('id');
 
         //Get the teams where the user is Team Admin
         $teamsWhereUserIsAdmin = $user->userTeams()->where('team_role', 'Team Admin')->with('team')->get()->pluck('team.name', 'team.id');
         $isAdminInTeam = count($teamsWhereUserIsAdmin) != 0;
 
-        $task = Task::where('id', $request->query('id'))->first();
+
+        $task = Task::where('id', $taskId)->first();
         if ($task) {
             $members = $task->taskUsers()->where('task_role', 'Member')->with('user')->get()->mapWithKeys(function ($taskUser) {
                 return [$taskUser->user->id => [
@@ -100,7 +102,8 @@ class TaskController extends Controller
                 return !in_array($user->email, $members) ? $user : null;
             })->filter()->toArray();
             $comments = $task->comments()->with('user')->get();
-            return view('task', compact('task', 'members', 'users', 'isAdminInTeam', 'teamsWhereUserIsAdmin', 'comments'));
+            $IsTaskOwner = count(UsersTask::where('task_id', $taskId)->where('user_id', $user->id)->where('task_role', 'Task Owner')->get()) != 0;
+            return view('task', compact('task', 'members', 'users', 'isAdminInTeam', 'teamsWhereUserIsAdmin', 'comments', 'IsTaskOwner'));
         } else {
             return $this->index($request);
         }

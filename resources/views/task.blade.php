@@ -54,7 +54,7 @@ $isAdmin = Auth::user()->role == 'Admin'
         </form>
         @endif
         <div class="comments">
-            @foreach($comments as $comment)
+            @foreach($comments->reverse() as $comment)
             <div class="comment">
                 <div class="comment-info">
                     <h2 class="comment-author">{{$comment->user->name}}</h2>
@@ -81,19 +81,20 @@ $isAdmin = Auth::user()->role == 'Admin'
                 <span class="task-info-data">{{\Carbon\Carbon::parse($task['deadline'])->toDateString()}}</span>
                 <span class="task-info-title">Participants:</span>
                 <span class="task-info-data">
+                    @if(count($members) == 0)
+                    No participants
+                    @else
                     @foreach($members as $id => [$name , $email])
                     {{$name}}
                     @if(!$loop->last)
                     ,
                     @endif
                     @endforeach
+                    @endif
                 </span>
             </div>
         </div>
-        <button class="btn btn--task btn--accept hidden">
-            <ion-icon class="task-btn-icon" name="checkmark-outline"></ion-icon>Submit task
-        </button>
-
+        @if($IsTaskOwner || $isAdmin)
         <button class="btn btn--task btn--parti">
             <ion-icon class="task-btn-icon" name="person-add-outline"></ion-icon>Add participant
         </button>
@@ -103,7 +104,8 @@ $isAdmin = Auth::user()->role == 'Admin'
         <button class="btn btn--task btn--delete">
             <ion-icon class="task-btn-icon" name="trash-outline"></ion-icon>Delete task
         </button>
-        <form method='post' action='/accept-task'>
+        @if($task['status'] == 'Pending')
+        <form class='button-form' method='post' action='/accept-task'>
             @csrf
             @method('POST')
             <input hidden id='task_id' name='task_id' value='{{$task['id']}}' />
@@ -111,7 +113,7 @@ $isAdmin = Auth::user()->role == 'Admin'
                 <ion-icon class="task-btn-icon" name="checkmark-outline"></ion-icon>Accept task
             </button>
         </form>
-        <form method='post' action='/reject-task'>
+        <form class='button-form' method='post' action='/reject-task'>
             @csrf
             @method('POST')
             <input hidden id='task_id' name='task_id' value='{{$task['id']}}' />
@@ -119,6 +121,14 @@ $isAdmin = Auth::user()->role == 'Admin'
                 <ion-icon class="task-btn-icon" name="close-outline"></ion-icon>Reject task
             </button>
         </form>
+        @endif
+        @else
+        @if($task['status'] != 'Pending')
+        <button class="btn btn--task btn--accept">
+            <ion-icon class="task-btn-icon" name="checkmark-outline"></ion-icon>Submit task
+        </button>
+        @endif
+        @endif
     </div>
 </div>
 @endsection
