@@ -7,7 +7,7 @@ const btnAdd = select(".btn--new");
 const modals = selectAll(".modal-holder");
 const btnsCloseModal = selectAll(".btn-close");
 const btnsCloseMessageModal = selectAll(".btn-close-message");
-const btnUserModal = select(".user-settings");
+const btnsUserModal = selectAll(".user-settings");
 
 const btnAddParti = select(".btn--parti");
 const addModal = select(".modal--add");
@@ -88,9 +88,36 @@ btnsCloseMessageModal.forEach((btn) => {
     });
 });
 
-addEventListenerIf(btnUserModal, "click", (e) => {
-    e.preventDefault();
-    modals[0].classList.add("appear");
+btnsUserModal.forEach((btnUserModal) => {
+    addEventListenerIf(btnUserModal, "click", (e) => {
+        e.preventDefault();
+        const form = btnUserModal.closest("form");
+        const formElements = form.closest("li");
+        const user = {
+            id: form.querySelector("input[name='user_id']").value,
+            name: formElements.querySelector(".data-title").textContent,
+            email: formElements.querySelector(".data-desc").textContent,
+            state: formElements
+                .querySelector(".user-active")
+                .querySelector(".data-role-desc")
+                .textContent.trim(),
+            role: formElements
+                .querySelector(".user-role")
+                .querySelector(".data-role-desc")
+                .textContent.trim(),
+        };
+
+        const modalForm = modals[0].querySelector("form");
+        modalForm.querySelector("input[name='user_id']").value = user.id;
+        modalForm.querySelector("input[name='name']").value = user.name;
+        modalForm.querySelector("input[name='email']").value = user.email;
+        modalForm.querySelector("select[name='role']").value =
+            user.role === "Admin" ? "Admin" : "User";
+        modalForm.querySelector("select[name='active']").value =
+            user.state === "Activated" ? "active" : "not-active";
+
+        modals[0].classList.add("appear");
+    });
 });
 
 modals.forEach((modal) => {

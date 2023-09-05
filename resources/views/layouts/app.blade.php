@@ -43,7 +43,7 @@
             </li>
             <li class="nav-item @if(Route::is('tasks') || Route::is('task')) nav-item-cta @endif"><a
                 href="/tasks">Tasks</a></li>
-            <li class="nav-item @if(!Auth::user()->role == 'Admin') hidden @endif ">
+            <li class="nav-item @if(Auth::user()->role == 'User')  hidden @endif">
               <a href="/users">Users</a>
             </li>
           </ul>

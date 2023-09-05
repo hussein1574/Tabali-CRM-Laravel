@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TeamController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,4 +32,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/toggle-team-admin', [TeamController::class, 'toggleTeamAdmin'])->name('toggle-team-admin');
     Route::put('/remove-member', [TeamController::class, 'removeTeamMember'])->name('remove-member');
     Route::put('/add-member', [TeamController::class, 'addTeamMember'])->name('add-member');
+
+    Route::get('/users', [UserController::class, 'index'])->name('users');
+    Route::put('/edit-user', [UserController::class, 'edit'])->name('edit-user');
+    Route::any('/users/search', [UserController::class, 'search'])->name('users-search');
 });
