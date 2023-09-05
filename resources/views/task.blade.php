@@ -123,7 +123,7 @@ $isAdmin = Auth::user()->role == 'Admin'
         </form>
         @endif
         @else
-        @if($task['status'] != 'Pending')
+        @if($task['status'] == 'Opened')
         <button class="btn btn--task btn--accept">
             <ion-icon class="task-btn-icon" name="checkmark-outline"></ion-icon>Submit task
         </button>
