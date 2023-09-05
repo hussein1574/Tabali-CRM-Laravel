@@ -40,8 +40,8 @@ addEventListenerIf(btnDeleteUser, "click", function (e) {
     e.preventDefault();
     const form = btnDeleteUser.closest("form");
     const modal = btnDeleteUser.closest(".modal");
-    const formElements = form.closest("li");
-    const ulElement = formElements.closest("ul");
+    const liElement = form.closest("li");
+    const ulElement = liElement.closest("ul");
     const requestLink = form.action;
     const taskId = form.querySelector("input[name='task_id']").value;
     const userId = form.querySelector("input[name='user_id']").value;
@@ -65,7 +65,7 @@ addEventListenerIf(btnDeleteUser, "click", function (e) {
             return response.json();
         })
         .then((data) => {
-            formElements.remove();
+            liElement.remove();
             if (ulElement.childElementCount === 0) {
                 const divElement = document.createElement("div");
                 divElement.classList.add("modal", "no-box-shadow");
@@ -83,8 +83,6 @@ addEventListenerIf(btnDeleteUser, "click", function (e) {
                 error
             );
         });
-
-    console.log(form, formElements, taskId);
 });
 
 settingsBtns.forEach((btn, i) => {
