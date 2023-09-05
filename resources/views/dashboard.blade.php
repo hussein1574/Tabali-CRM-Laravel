@@ -58,7 +58,7 @@ if(in_array(Auth::user()->name,$team['members'])) $teamMembersCount -= 1;
             <ul class="data-list">
                 @foreach($tasks as $task)
                 <li class="data-item">
-                    <a href="#">
+                    <a href="/task?id={{$task['id']}}">
                         <h3 class="data-title">{{ $task['name'] }}</h3>
                         <p class="data-desc">{{Str::limit($task['description'], 100); }}</p>
                     </a>

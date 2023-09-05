@@ -10,6 +10,9 @@
         flex-direction: column;
         gap: 3rem;
     }
+    .comments {
+        width: 100%;
+    }
     .task-communication {
         align-items: center;
         justify-content: center;

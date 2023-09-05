@@ -9,8 +9,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Task extends Model
 {
-    use HasFactory,HasUuids;
-        /**
+    use HasFactory, HasUuids;
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
@@ -19,9 +19,10 @@ class Task extends Model
         'name',
         'description',
         'priority',
+        'status',
         'deadline'
     ];
-        /**
+    /**
      * The attributes that should be cast.
      *
      * @var array<string, string>

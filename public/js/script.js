@@ -27,6 +27,8 @@ const topHeader = select("header");
 const settingsBtns = selectAll(".settings-open-list");
 const settingsNavs = selectAll(".settings-nav");
 
+const btnDeleteUser = select(".btn-user-delete");
+
 const body = document.body;
 
 const addEventListenerIf = (element, event, callback) => {
@@ -34,6 +36,56 @@ const addEventListenerIf = (element, event, callback) => {
         element.addEventListener(event, callback);
     }
 };
+addEventListenerIf(btnDeleteUser, "click", function (e) {
+    e.preventDefault();
+    const form = btnDeleteUser.closest("form");
+    const modal = btnDeleteUser.closest(".modal");
+    const formElements = form.closest("li");
+    const ulElement = formElements.closest("ul");
+    const requestLink = form.action;
+    const taskId = form.querySelector("input[name='task_id']").value;
+    const userId = form.querySelector("input[name='user_id']").value;
+    const csrfToken = form.querySelector("input[name='_token']").value;
+
+    fetch(requestLink, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": csrfToken,
+        },
+        body: JSON.stringify({
+            task_id: taskId,
+            user_id: userId,
+        }),
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json();
+        })
+        .then((data) => {
+            formElements.remove();
+            if (ulElement.childElementCount === 0) {
+                const divElement = document.createElement("div");
+                divElement.classList.add("modal", "no-box-shadow");
+                divElement.innerHTML = `
+        <ion-icon class='orange-icon' name="alert-outline"></ion-icon>
+        <h3 class="form-title lighter-font">No participants Yet</h3>
+    `;
+                modal.insertBefore(divElement, ulElement);
+                ulElement.remove();
+            }
+        })
+        .catch((error) => {
+            console.error(
+                "There was a problem with the fetch operation:",
+                error
+            );
+        });
+
+    console.log(form, formElements, taskId);
+});
 
 settingsBtns.forEach((btn, i) => {
     addEventListenerIf(btn, "click", (e) => {

@@ -2,17 +2,22 @@
 @section('title', 'Tasks')
 @section('username', Auth::user()->name)
 
-@section('heading-bar')
-<h1 class="main-heading"><a class='heading-link' href="/tasks">Tasks</a></h1>
-<button class="btn btn--new">New task</button>
-@endsection
-
 @php
 $currentPage = $tasks->currentPage();
 $lastPage = $tasks->lastPage();
 $search = request()->query('search') ? '?search='. request()->query('search') . '&' : '?';
 $filter = request()->query('filter');
+$isAdmin = Auth::user()->role == 'Admin'
 @endphp
+
+@section('heading-bar')
+<h1 class="main-heading"><a class='heading-link' href="/tasks">Tasks</a></h1>
+@if($isAdmin || $isAdminInTeam)
+<button class="btn btn--new">New task</button>
+@endif
+@endsection
+
+
 
 @section('main')
 @if (session('success'))
@@ -70,7 +75,7 @@ $filter = request()->query('filter');
             @foreach($tasks as $task)
             <li class="page-data-item">
                 <div>
-                    <h3 class="data-title">{{$task['name']}}</h3>
+                    <a href="/task?id={{$task['id']}}" class="page-data-title">{{$task['name']}}</a>
                     <p class="data-desc">{{Str::limit($task['description'], 100)}}</p>
                 </div>
                 <div class="right-part">
@@ -144,7 +149,9 @@ $filter = request()->query('filter');
 <div class="modal-holder">
     <div class="modal">
         <h2 class="form-title">Add a new task</h2>
-        <form class="sign-form">
+        <form class="sign-form" method='post' action='/add-task'>
+            @csrf
+            @method('POST')
             <div class="input-holder">
                 <label class="input-label" for="title">Task title</label>
                 <input class="input-box" id="title" type="text" name="title" required />

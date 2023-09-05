@@ -9,14 +9,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Comment extends Model
 {
-    use HasFactory,HasUuids;
-        /**
+    use HasFactory, HasUuids;
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'comment'
+        'comment',
+        'user_id',
+        'task_id'
     ];
     public function task(): BelongsTo
     {
