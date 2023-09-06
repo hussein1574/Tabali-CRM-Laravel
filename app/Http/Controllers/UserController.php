@@ -33,10 +33,8 @@ class UserController extends Controller
                 'name' => ['required', 'min:5', 'max:255'],
                 'email' => ['required', 'email'],
             ]);
-            if (!$user->name == $credentials['name'])
-                $user->name = $credentials['name'];
-            if (!$user->email == $credentials['email'])
-                $user->email = $credentials['email'];
+            $user->name = $credentials['name'];
+            $user->email = $credentials['email'];
             $user->role = $request->role;
             $user->is_activated = $request->active == 'active' ? true : false;
             $user->save();

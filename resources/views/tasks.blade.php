@@ -74,7 +74,7 @@ $isAdmin = Auth::user()->role == 'Admin'
         <ul class="page-data-list">
             @foreach($tasks as $task)
             <li class="page-data-item">
-                <div>
+                <div class='left-part'>
                     <a href="/task?id={{$task['id']}}" class="page-data-title">{{$task['name']}}</a>
                     <p class="data-desc">{{Str::limit($task['description'], 100)}}</p>
                 </div>
