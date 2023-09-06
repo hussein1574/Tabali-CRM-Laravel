@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Task;
+use App\Models\Team;
 use App\Models\User;
 use App\Models\UsersTask;
+use App\Models\UsersTeam;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -89,21 +91,30 @@ class TaskController extends Controller
         $teamsWhereUserIsAdmin = $user->userTeams()->where('team_role', 'Team Admin')->with('team')->get()->pluck('team.name', 'team.id');
         $isAdminInTeam = count($teamsWhereUserIsAdmin) != 0;
 
-
         $task = Task::where('id', $taskId)->first();
+        $teamsWhereUserIsAdmin->each(function (&$value, $key) use ($task, $teamsWhereUserIsAdmin) {
+            $teamMembers = UsersTeam::where('team_id', $key)->pluck('user_id')->toArray();
+            $taskMembers = $task->taskUsers()->with('user')->get()->pluck('user.id')->toArray();
+            if (count(array_diff($teamMembers, $taskMembers)) == 0) {
+                $teamsWhereUserIsAdmin->forget($key);
+            }
+        });
         if ($task) {
+            $teams = Team::get();
             $members = $task->taskUsers()->where('task_role', 'Member')->with('user')->get()->mapWithKeys(function ($taskUser) {
                 return [$taskUser->user->id => [
                     $taskUser->user->name,
                     $taskUser->user->email,
                 ]];
             })->toArray();
-            $users = User::get()->map(function ($user) use ($members) {
+            $membersIds = array_keys($members);
+            $membersIds[] = $task->taskUsers()->where('task_role', 'Task Owner')->with('user')->first()->user_id;
+            $users = User::whereNotIn('id', $membersIds)->get()->map(function ($user) use ($members) {
                 return !in_array($user->email, $members) ? $user : null;
             })->filter()->toArray();
             $comments = $task->comments()->with('user')->get();
             $IsTaskOwner = count(UsersTask::where('task_id', $taskId)->where('user_id', $user->id)->where('task_role', 'Task Owner')->get()) != 0;
-            return view('task', compact('task', 'members', 'users', 'isAdminInTeam', 'teamsWhereUserIsAdmin', 'comments', 'IsTaskOwner'));
+            return view('task', compact('task', 'members', 'users', 'isAdminInTeam', 'teamsWhereUserIsAdmin', 'comments', 'IsTaskOwner', 'teams'));
         } else {
             return $this->index($request);
         }
@@ -115,7 +126,6 @@ class TaskController extends Controller
             'description' => ['required', 'min:50', 'max:5000'],
             'deadline' => [
                 'required', 'date',
-                'after_or_equal:' . Carbon::today()->format('Y-m-d'),
             ]
         ]);
         $task = Task::where('id', $request->task_id)->first();
@@ -155,6 +165,15 @@ class TaskController extends Controller
 
         return redirect()->back()->with('success', 'The task is opened again 😒');
     }
+    public function submitTask(Request $request): RedirectResponse
+    {
+        $task = Task::where('id', $request->task_id)->first();
+        $task->status = 'pending';
+        $task->save();
+
+        return redirect()->back()->with('success', "You've submited the task successfully.
+         Wait for the admin response");
+    }
     public function deleteTaskMember(Request $request)
     {
         $taskUser = UsersTask::where('task_id', $request->task_id)->where('user_id', $request->user_id)->first();
@@ -164,6 +183,39 @@ class TaskController extends Controller
             return response()->json(['message' => 'Member removed successfully.']);
         } else {
             return response()->json(['message' => 'Failed to remove member.'], 400);
+        }
+    }
+    public function addTaskMembers(Request $request)
+    {
+        $taskId = $request->task_id;
+        $teamId = $request->team_id;
+        $userId = $request->user_id;
+        if ($teamId) {
+            $team = Team::where('id', $teamId)->first();
+            $teamMembers = $team->teamUsers()->get();
+            $addedMembers = collect();
+            foreach ($teamMembers as $i => $teamMember) {
+                $memberId = $teamMember->user_id;
+                $NotInTheTask = UsersTask::where('user_id', $memberId)->where('task_id', $taskId)->get()->isEmpty();
+                if ($NotInTheTask) {
+                    $addedMembers->push(User::find($memberId));
+                    UsersTask::create([
+                        'user_id' => $memberId,
+                        'task_id' => $taskId,
+                    ]);
+                }
+            }
+            return response()->json(['message' => 'Team members added to the task successfully.', 'users' => $addedMembers]);
+        }
+        if ($userId) {
+            $addedMembers = collect();
+            $addedMembers->push(User::find($userId));
+            $NotInTheTask = UsersTask::where('user_id', $userId)->where('task_id', $taskId)->get()->isEmpty();
+            UsersTask::create([
+                'user_id' => $userId,
+                'task_id' => $taskId,
+            ]);
+            return response()->json(['message' => 'Member added to the task successfully.', 'users' => $addedMembers]);
         }
     }
 }

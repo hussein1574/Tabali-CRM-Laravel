@@ -10,7 +10,7 @@ $isAdmin = Auth::user()->role == 'Admin'
 
 @section('heading-bar')
 <h1 class="main-heading"><a class='heading-link' href="/teams">Teams</a></h1>
-@if($isAdmin || $isAdminInTeam)
+@if($isAdmin)
 <button class="btn btn--new">New team</button>
 @endif
 @endsection

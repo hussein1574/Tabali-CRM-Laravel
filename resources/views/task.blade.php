@@ -53,7 +53,7 @@ $isAdmin = Auth::user()->role == 'Admin'
             <button class="btn btn--add-comment">Add comment</button>
         </form>
         @endif
-        <div class="comments">
+        <div class="comments @if(count($comments)>= 2) scrollable @endif">
             @foreach($comments->reverse() as $comment)
             <div class="comment">
                 <div class="comment-info">
@@ -80,7 +80,7 @@ $isAdmin = Auth::user()->role == 'Admin'
                 <span class="task-info-title">Deadline:</span>
                 <span class="task-info-data">{{\Carbon\Carbon::parse($task['deadline'])->toDateString()}}</span>
                 <span class="task-info-title">Participants:</span>
-                <span class="task-info-data">
+                <span class="task-info-data participants">
                     @if(count($members) == 0)
                     No participants
                     @else
@@ -124,9 +124,14 @@ $isAdmin = Auth::user()->role == 'Admin'
         @endif
         @else
         @if($task['status'] == 'Opened')
-        <button class="btn btn--task btn--accept">
-            <ion-icon class="task-btn-icon" name="checkmark-outline"></ion-icon>Submit task
-        </button>
+        <form class='button-form' method='post' action='/submit-task'>
+            @csrf
+            @method('POST')
+            <input hidden id='task_id' name='task_id' value='{{$task['id']}}' />
+            <button class="btn btn--task btn--accept">
+                <ion-icon class="task-btn-icon" name="checkmark-outline"></ion-icon>Submit task
+            </button>
+        </form>
         @endif
         @endif
     </div>
@@ -143,7 +148,7 @@ $isAdmin = Auth::user()->role == 'Admin'
             <h3 class="form-title lighter-font">No participants Yet</h3>
         </div>
         @else
-        <ul class="user-lines scrollable">
+        <ul class="user-lines @if(count($members) >= 4) scrollable @endif">
             @foreach($members as $id => [$name , $email])
             <li class="user-line">
                 <span class="user-line-name">{{$name}}</span>
@@ -162,7 +167,23 @@ $isAdmin = Auth::user()->role == 'Admin'
         @endif
 
         <h2 class="form-title">Add a new participants</h2>
-        <form class="sign-form">
+        <form class="sign-form" method='post' action='{{route('add-task-members')}}'>
+            @csrf
+            @method('POST')
+            <input hidden id='task_id' name='task_id' value='{{$task['id']}}' />
+            @if(!$isAdmin)
+            <div class="input-holder input-teams">
+                <label class="input-label" for="team_id">Your teams</label>
+                <select class="input-box" name="team_id" id="team_id">
+                    <option selected="true" disabled="disabled" value="">
+                        Please choose
+                    </option>
+                    @foreach($teamsWhereUserIsAdmin as $id => $name )
+                    <option value="{{$id}}">{{$name}}</option>
+                    @endforeach
+                </select>
+            </div>
+            @else
             <div class="input-holder">
                 <label class="input-label" for="type">Who do you want to add ?</label>
                 <select class="input-box type-select" name="type" id="type">
@@ -174,25 +195,29 @@ $isAdmin = Auth::user()->role == 'Admin'
                 </select>
             </div>
             <div class="input-holder input-users hidden">
-                <label class="input-label" for="title">User Emails</label>
-                <select class="input-box" name="type" id="type">
+                <label class="input-label" for="user_id">User Emails</label>
+                <select class="input-box" name="user_id" id="user_id">
                     <option selected="true" disabled="disabled" value="">
                         Please choose
                     </option>
-                    <option value="user1">User1@gmail.com</option>
-                    <option value="user2">User1@gmail.com</option>
+                    @foreach($users as $user)
+                    <option value="{{$user['id']}}">{{$user['name']}}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="input-holder input-teams hidden">
-                <label class="input-label" for="title">Team Names</label>
-                <select class="input-box" name="type" id="type">
+                <label class="input-label" for="team_id">Team Names</label>
+                <select class="input-box" name="team_id" id="team_id">
                     <option selected="true" disabled="disabled" value="">
                         Please choose
                     </option>
-                    <option value="user1">Team 1</option>
-                    <option value="user2">Team 2</option>
+                    @foreach($teams as $team)
+                    <option value="{{$team['id']}}">{{$team['name']}}</option>
+                    @endforeach
                 </select>
             </div>
+            @endif
+
             <button class="btn btn-add">
                 Add
                 <ion-icon class="modal-icon" name="paper-plane-outline"></ion-icon>

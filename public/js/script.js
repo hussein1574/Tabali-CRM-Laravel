@@ -27,7 +27,9 @@ const topHeader = select("header");
 const settingsBtns = selectAll(".settings-open-list");
 const settingsNavs = selectAll(".settings-nav");
 
-const btnDeleteUser = select(".btn-user-delete");
+let btnsDeleteUser = selectAll(".btn-user-delete");
+const participantsText = select(".participants");
+const btnAddUser = select(".btn-add");
 
 const body = document.body;
 
@@ -36,27 +38,44 @@ const addEventListenerIf = (element, event, callback) => {
         element.addEventListener(event, callback);
     }
 };
-addEventListenerIf(btnDeleteUser, "click", function (e) {
+addEventListenerIf(btnAddUser, "click", (e) => {
     e.preventDefault();
-    const form = btnDeleteUser.closest("form");
-    const modal = btnDeleteUser.closest(".modal");
-    const liElement = form.closest("li");
-    const ulElement = liElement.closest("ul");
-    const requestLink = form.action;
-    const taskId = form.querySelector("input[name='task_id']").value;
-    const userId = form.querySelector("input[name='user_id']").value;
-    const csrfToken = form.querySelector("input[name='_token']").value;
+    const form = btnAddUser.closest("form");
+    const modal = btnAddUser.closest(".modal");
+    console.log(modal);
+    let ulElement = modal.querySelector("ul");
 
+    const requestLink = form.action;
+    const url = new URL(requestLink);
+    const baseUrl = url.origin;
+    const taskId = form.querySelector("input[name='task_id']").value;
+    let teamId = "",
+        userId = "";
+    if (form.querySelector("select[name='team_id']"))
+        teamId = form.querySelector("select[name='team_id']").value;
+    if (form.querySelector("select[name='user_id']"))
+        userId = form.querySelector("select[name='user_id']").value;
+    const csrfToken = form.querySelector("input[name='_token']").value;
+    let body = "";
+    if (teamId === "") {
+        body = JSON.stringify({
+            task_id: taskId,
+            user_id: userId,
+        });
+    }
+    if (userId === "") {
+        body = JSON.stringify({
+            task_id: taskId,
+            team_id: teamId,
+        });
+    }
     fetch(requestLink, {
-        method: "DELETE",
+        method: "POST",
         headers: {
             "Content-Type": "application/json",
             "X-CSRF-TOKEN": csrfToken,
         },
-        body: JSON.stringify({
-            task_id: taskId,
-            user_id: userId,
-        }),
+        body,
     })
         .then((response) => {
             if (!response.ok) {
@@ -65,17 +84,113 @@ addEventListenerIf(btnDeleteUser, "click", function (e) {
             return response.json();
         })
         .then((data) => {
-            liElement.remove();
-            if (ulElement.childElementCount === 0) {
-                const divElement = document.createElement("div");
-                divElement.classList.add("modal", "no-box-shadow");
-                divElement.innerHTML = `
+            if (!ulElement) {
+                const modalMessage = modal.querySelector(".no-box-shadow");
+                ulElement = document.createElement("ul");
+                ulElement.className = "user-lines";
+                if (data.users.length >= 4) {
+                    ulElement.classList.add("scrollable");
+                }
+                modalMessage.replaceWith(ulElement);
+            }
+            data.users.forEach((user) => {
+                const liElementHtml = `
+                <span class="user-line-name">${user.name}</span>
+                <form method="post" action="${baseUrl}/delete-task-member">
+                    <input type="hidden" name="_token" value="${csrfToken}">                    
+                    <input type="hidden" name="_method" value="DELETE">                    
+                    <input hidden="" id="task_id" name="task_id" value="${taskId}">
+                    <input hidden="" id="user_id" name="user_id" value="${user.id}">
+                    <button type="submit" class="btn btn-user-delete">
+                        <ion-icon class="task-btn-icon md hydrated" name="trash-outline" role="img"></ion-icon>
+                    </button>
+                </form>
+            `;
+                const liElement = document.createElement("li");
+                liElement.classList.add("user-line");
+                liElement.innerHTML = liElementHtml;
+                ulElement.appendChild(liElement);
+            });
+            const usersNames = Array.from(selectAll(".user-line-name")).reduce(
+                function (names, nameElement) {
+                    return (names += `${names ? "," : ""} ${
+                        nameElement.textContent
+                    }`);
+                },
+                ""
+            );
+            participantsText.textContent = usersNames;
+            btnsDeleteUser = selectAll(".btn-user-delete");
+            btnsDeleteUser.forEach((btnDeleteUser) => {
+                addEventListenerIf(btnDeleteUser, "click", function (e) {
+                    e.preventDefault();
+                    const form = btnDeleteUser.closest("form");
+                    const modal = btnDeleteUser.closest(".modal");
+                    const liElement = form.closest("li");
+                    const ulElement = liElement.closest("ul");
+                    const requestLink = form.action;
+                    const taskId = form.querySelector(
+                        "input[name='task_id']"
+                    ).value;
+                    const userId = form.querySelector(
+                        "input[name='user_id']"
+                    ).value;
+                    const csrfToken = form.querySelector(
+                        "input[name='_token']"
+                    ).value;
+
+                    fetch(requestLink, {
+                        method: "DELETE",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": csrfToken,
+                        },
+                        body: JSON.stringify({
+                            task_id: taskId,
+                            user_id: userId,
+                        }),
+                    })
+                        .then((response) => {
+                            if (!response.ok) {
+                                throw new Error("Network response was not ok");
+                            }
+                            return response.json();
+                        })
+                        .then((data) => {
+                            liElement.remove();
+                            const usersNames = Array.from(
+                                selectAll(".user-line-name")
+                            ).reduce(function (names, nameElement) {
+                                return (names += `${names ? "," : ""} ${
+                                    nameElement.textContent
+                                }`);
+                            }, "");
+                            participantsText.textContent = usersNames;
+                            if (ulElement.childElementCount === 0) {
+                                participantsText.textContent =
+                                    "No participants";
+                                const divElement =
+                                    document.createElement("div");
+                                divElement.classList.add(
+                                    "modal",
+                                    "no-box-shadow"
+                                );
+                                divElement.innerHTML = `
         <ion-icon class='orange-icon' name="alert-outline"></ion-icon>
         <h3 class="form-title lighter-font">No participants Yet</h3>
     `;
-                modal.insertBefore(divElement, ulElement);
-                ulElement.remove();
-            }
+                                modal.insertBefore(divElement, ulElement);
+                                ulElement.remove();
+                            }
+                        })
+                        .catch((error) => {
+                            console.error(
+                                "There was a problem with the fetch operation:",
+                                error
+                            );
+                        });
+                });
+            });
         })
         .catch((error) => {
             console.error(
@@ -83,6 +198,65 @@ addEventListenerIf(btnDeleteUser, "click", function (e) {
                 error
             );
         });
+});
+btnsDeleteUser.forEach((btnDeleteUser) => {
+    addEventListenerIf(btnDeleteUser, "click", function (e) {
+        e.preventDefault();
+        const form = btnDeleteUser.closest("form");
+        const modal = btnDeleteUser.closest(".modal");
+        const liElement = form.closest("li");
+        const ulElement = liElement.closest("ul");
+        const requestLink = form.action;
+        const taskId = form.querySelector("input[name='task_id']").value;
+        const userId = form.querySelector("input[name='user_id']").value;
+        const csrfToken = form.querySelector("input[name='_token']").value;
+
+        fetch(requestLink, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": csrfToken,
+            },
+            body: JSON.stringify({
+                task_id: taskId,
+                user_id: userId,
+            }),
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            })
+            .then((data) => {
+                liElement.remove();
+                const usersNames = Array.from(
+                    selectAll(".user-line-name")
+                ).reduce(function (names, nameElement) {
+                    return (names += `${names ? "," : ""} ${
+                        nameElement.textContent
+                    }`);
+                }, "");
+                participantsText.textContent = usersNames;
+                if (ulElement.childElementCount === 0) {
+                    participantsText.textContent = "No participants";
+                    const divElement = document.createElement("div");
+                    divElement.classList.add("modal", "no-box-shadow");
+                    divElement.innerHTML = `
+        <ion-icon class='orange-icon' name="alert-outline"></ion-icon>
+        <h3 class="form-title lighter-font">No participants Yet</h3>
+    `;
+                    modal.insertBefore(divElement, ulElement);
+                    ulElement.remove();
+                }
+            })
+            .catch((error) => {
+                console.error(
+                    "There was a problem with the fetch operation:",
+                    error
+                );
+            });
+    });
 });
 
 settingsBtns.forEach((btn, i) => {

@@ -46,7 +46,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/delete-task', [TaskController::class, 'deleteTask'])->name('delete-task');
     Route::post('/accept-task', [TaskController::class, 'acceptTask'])->name('accept-task');
     Route::post('/reject-task', [TaskController::class, 'rejectTask'])->name('reject-task');
+    Route::post('/submit-task', [TaskController::class, 'submitTask'])->name('submit-task');
     Route::delete('/delete-task-member', [TaskController::class, 'deleteTaskMember'])->name('delete-task-member');
+    Route::post('/add-task-members', [TaskController::class, 'addTaskMembers'])->name('add-task-members');
+
+
+
 
 
     // Comments Routes

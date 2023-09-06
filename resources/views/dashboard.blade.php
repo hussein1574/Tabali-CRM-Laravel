@@ -61,7 +61,7 @@ if(in_array(Auth::user()->name,$team['members'])) $teamMembersCount -= 1;
                 <h2 class="form-title">No Tasks Yet</h2>
             </div>
             @else
-            <ul class="data-list">
+            <ul class="data-list" @if(count($tasks)>= 4) scrollable @endif>
                 @foreach($tasks as $task)
                 @if($task['status'] != 'Closed')
                 <li class="data-item">
