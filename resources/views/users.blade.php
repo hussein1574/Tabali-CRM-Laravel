@@ -61,7 +61,7 @@ $lastPage = $users->lastPage();
         <ul class="page-data-list">
             @foreach($users as $user)
             <li class="page-data-item">
-                <div>
+                <div class="left-part">
                     <h3 class="data-title">{{$user['name']}}</h3>
                     <p class="data-desc">{{$user['email']}}</p>
                 </div>

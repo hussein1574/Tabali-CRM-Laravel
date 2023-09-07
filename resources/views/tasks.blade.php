@@ -76,7 +76,8 @@ $isAdmin = Auth::user()->role == 'Admin'
             <li class="page-data-item">
                 <div class='left-part'>
                     <a href="/task?id={{$task['id']}}" class="page-data-title">{{$task['name']}}</a>
-                    <p class="data-desc">{{Str::limit($task['description'], 100)}}</p>
+                    <p class="data-desc">{!! nl2br(wordwrap(Str::limit($task['description'], 100), 50, "\n", true)) !!}
+                    </p>
                 </div>
                 <div class="right-part">
                     <div class="role">

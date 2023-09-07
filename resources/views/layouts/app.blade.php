@@ -28,12 +28,19 @@
             <ion-icon class="icon-mobile-nav" name="menu-outline"></ion-icon>
             <ion-icon class="icon-mobile-nav" name="close-outline"></ion-icon>
           </button>
-          <picture class="logo-left">
-            <source srcset="{{url('/')}}/imgs/logo-white.webp" type="image/webp" />
-            <source srcset="{{url('/')}}/imgs/logo-white.png" type="image/png" />
-            <img class="logo-dashboard" src="{{url('/')}}/img/logo-white.png" alt="Tabali logo" />
-          </picture>
+          <a class="logo-left" href='{{url('/')}}'>
+            <picture>
+              <source srcset="{{url('/')}}/imgs/logo-white.webp" type="image/webp" />
+              <source srcset="{{url('/')}}/imgs/logo-white.png" type="image/png" />
+              <img class="logo-dashboard" src="{{url('/')}}/img/logo-white.png" alt="Tabali logo" />
+            </picture>
+          </a>
           <ul class="nav-items">
+            <li class='nav-item title appear-mobile'>
+              <p class="welcome-title-mobile"><span class='smaller-font-mobile'>Welcome</span>
+                <span>@yield('username')</span>
+              </p>
+            </li>
             <li class="nav-item @if(Route::is('dashboard')) nav-item-cta @endif">
               <a href="/dashboard">Dashboard</a>
             </li>
@@ -46,13 +53,17 @@
             <li class="nav-item @if(Auth::user()->role == 'User')  hidden @endif">
               <a href="/users">Users</a>
             </li>
+            <li class='nav-item empty-li'>
+            </li>
           </ul>
         </div>
-        <picture class="logo-center">
-          <source srcset="{{url('/')}}/imgs/logo-white.webp" type="image/webp" />
-          <source srcset="{{url('/')}}/imgs/logo-white.png" type="image/png" />
-          <img class="logo-dashboard" src="{{url('/')}}/img/logo-white.png" alt="Tabali logo" />
-        </picture>
+        <a class="logo-center" href='{{url('/')}}'>
+          <picture>
+            <source srcset="{{url('/')}}/imgs/logo-white.webp" type="image/webp" />
+            <source srcset="{{url('/')}}/imgs/logo-white.png" type="image/png" />
+            <img class="logo-dashboard" src="{{url('/')}}/img/logo-white.png" alt="Tabali logo" />
+          </picture>
+        </a>
         <div class="right-heading">
           <p class="welcome-title white-font hide"><span class='smaller-font'>Welcome</span>
             <span>@yield('username')</span>

@@ -41,7 +41,7 @@ $isAdmin = Auth::user()->role == 'Admin'
 <div class="task-body">
     <div class="task-communication">
         <p class="task-description">
-            {{$task['description']}}
+            {!! nl2br($task['description']) !!}
         </p>
         @if($task['status'] != 'Closed')
         <form class="comment-form" method='post' action='/add-comment'>

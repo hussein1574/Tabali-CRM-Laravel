@@ -67,7 +67,7 @@ if(in_array(Auth::user()->name,$team['members'])) $teamMembersCount -= 1;
                 <li class="data-item">
                     <a href="/task?id={{$task['id']}}">
                         <h3 class="data-title">{{ $task['name'] }}</h3>
-                        <p class="data-desc">{{Str::limit($task['description'], 100); }}</p>
+                        <p class="data-desc">{!! nl2br(Str::limit($task['description'], 100)) !!}</p>
                     </a>
                     <p class="data-additional">Deadline: {{\Carbon\Carbon::parse($task['deadline'])->toDateString();}}
                     </p>

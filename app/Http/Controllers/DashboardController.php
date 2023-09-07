@@ -36,6 +36,7 @@ class DashboardController extends Controller
                 return $teamArray;
             })->toArray();
         }
+        $tasks = array_unique($tasks, SORT_REGULAR);
         return view('dashboard', compact('tasks', 'teams'));
     }
 }
