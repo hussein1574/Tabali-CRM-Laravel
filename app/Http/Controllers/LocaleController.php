@@ -15,7 +15,7 @@ class LocaleController extends Controller
         if (!in_array($locale, ['en', 'ar'])) {
             abort(400);
         }
-        App::setLocale($locale);
-        return redirect('/');
+        session()->put('locale', $locale);
+        return redirect()->back();
     }
 }
