@@ -12,12 +12,12 @@ $lastPage = $users->lastPage();
 @endphp
 
 @section('main')
-@if (session('success'))
+@if (session(__('messages.success'))))
 <div class="modal-holder-message appear">
     <div class="modal">
         <ion-icon class='danger-icon' name="checkmark-done-circle-outline"></ion-icon>
-        <h2 class="form-title">Success</h2>
-        <p class="alert alert-success bigger-font">{{ session('success') }}</p>
+        <h2 class="form-title">{{__('messages.success')}}</h2>
+        <p class="alert alert-success bigger-font">{{ session(__('messages.success')) }}</p>
         <button class="btn btn-close-message">
             <ion-icon class="modal-icon modal-icon-close" name="close-outline"></ion-icon>
         </button>
@@ -28,7 +28,7 @@ $lastPage = $users->lastPage();
 <div class="modal-holder-message appear">
     <div class="modal">
         <ion-icon class='danger-icon' name="alert-circle-outline"></ion-icon>
-        <h2 class="form-title">Error</h2>
+        <h2 class="form-title">{{__('messages.error')}}</h2>
         {!! $errors->all('<div class="alert alert-danger bigger-font">:message</div>')[0] !!}
         <button class="btn btn-close-message">
             <ion-icon class="modal-icon modal-icon-close" name="close-outline"></ion-icon>

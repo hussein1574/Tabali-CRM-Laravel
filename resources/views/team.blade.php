@@ -14,19 +14,19 @@ $team['id'])->first()->team_role == 'Team Admin';
 @section('heading-bar')
 <h1 class="main-heading"><a class='heading-link' href="/team?id={{$team['id']}}">{{$team['name']}}</a></h1>
 @if($isAdmin)
-<button class="btn btn--new">Add team member</button>
+<button class="btn btn--new">{{__('messages.addMember')}}</button>
 @endif
 @endsection
 
 
 
 @section('main')
-@if (session('success'))
+@if (session(__('messages.success'))))
 <div class="modal-holder-message appear">
     <div class="modal">
         <ion-icon class='danger-icon' name="checkmark-done-circle-outline"></ion-icon>
-        <h2 class="form-title">Success</h2>
-        <p class="alert alert-success bigger-font">{{ session('success') }}</p>
+        <h2 class="form-title">{{__('messages.success')}}</h2>
+        <p class="alert alert-success bigger-font">{{ session(__('messages.success')) }}</p>
         <button class="btn btn-close-message">
             <ion-icon class="modal-icon modal-icon-close" name="close-outline"></ion-icon>
         </button>
@@ -37,7 +37,7 @@ $team['id'])->first()->team_role == 'Team Admin';
 <div class="modal-holder-message appear">
     <div class="modal">
         <ion-icon class='danger-icon' name="alert-circle-outline"></ion-icon>
-        <h2 class="form-title">Error</h2>
+        <h2 class="form-title">{{__('messages.error')}}</h2>
         {!! $errors->all('<div class="alert alert-danger bigger-font">:message</div>')[0] !!}
         <button class="btn btn-close-message">
             <ion-icon class="modal-icon modal-icon-close" name="close-outline"></ion-icon>
@@ -51,9 +51,10 @@ $team['id'])->first()->team_role == 'Team Admin';
         <input hidden name='id' value='{{$team['id']}}' id='id' />
         @if(request()->query('search'))
         <input class="input-search" type="text" id="search" value='{{request()->query('search')}}'
-            placeholder="Search for team" name="search" required />
+            placeholder="{{__('messages.searchForMember')}}" name="search" required />
         @else
-        <input class="input-search" type="text" id="search" placeholder="Search for team" name="search" />
+        <input class="input-search" type="text" id="search" placeholder="{{__('messages.searchForMember')}}"
+            name="search" />
         @endif
         <button class="btn-search">
             <ion-icon name="search-outline"></ion-icon>
@@ -64,7 +65,7 @@ $team['id'])->first()->team_role == 'Team Admin';
     @if(count($members) == 0)
     <div class="modal no-box-shadow margin-top-medium">
         <ion-icon class='danger-icon' name="alert-outline"></ion-icon>
-        <h2 class="form-title">No Members Found</h2>
+        <h2 class="form-title">{{__('messages.noMembersFound')}}</h2>
     </div>
     @else
     <div class="page-items">
@@ -77,7 +78,7 @@ $team['id'])->first()->team_role == 'Team Admin';
                 </div>
                 <div class="right-part">
                     <div class="role">
-                        <h3 class="data-role-title">Role</h3>
+                        <h3 class="data-role-title">{{__('messages.role')}}</h3>
                         <p class="data-role-desc">{{$member['team_role']}}</p>
                     </div>
                     @if($isAdmin)
@@ -94,9 +95,9 @@ $team['id'])->first()->team_role == 'Team Admin';
                                     <input hidden id='team_id' name='team_id' value='{{$team['id']}}' />
                                     <input hidden id='user_id' name='user_id'
                                         value='{{$member->user()->first()['id']}}' />
-                                    <button class='settings-option'>@if($member['team_role'] === 'Team Admin')Remove as
-                                        Admin @else Assign as
-                                        Admin @endif</button>
+                                    <button class='settings-option'>@if($member['team_role'] === 'Team Admin')
+                                        {{__('messages.removeAdmin')}} @else {{__('messages.assignAdmin')}}
+                                        @endif</button>
                                 </form>
                             </li>
                             <li>
@@ -106,7 +107,7 @@ $team['id'])->first()->team_role == 'Team Admin';
                                     <input hidden id='team_id' name='team_id' value='{{$team['id']}}' />
                                     <input hidden id=' user_id' name='user_id'
                                         value='{{$member->user()->first()['id']}}' />
-                                    <button class='settings-option'>Remove from team</button>
+                                    <button class='settings-option'>{{__('messages.removeFromTeam')}}</button>
                                 </form>
                             </li>
                         </ul>
@@ -168,22 +169,22 @@ $team['id'])->first()->team_role == 'Team Admin';
 @section('modals')
 <div class="modal-holder">
     <div class="modal">
-        <h2 class="form-title">Add team member</h2>
+        <h2 class="form-title">{{__('messages.addMember')}}</h2>
         <form class="sign-form" method='post' action='/add-member'>
             @csrf
             @method('put')
             <div class="input-holder">
                 <input hidden id='team_id' name='team_id' value='{{$team['id']}}' />
-                <label class="input-label" for="user_id">Their email address</label>
+                <label class="input-label" for="user_id">{{__('messages.users')}}</label>
                 <select class="input-box" name="user_id" id="user_id">
-                    <option value='' disabled="disabled">Choose a user</option>
+                    <option value='' disabled="disabled">{{__('messages.chooseUser')}}</option>
                     @foreach($users as $user)
-                    <option value="{{$user['id']}}">{{$user['email']}}</option>
+                    <option value="{{$user['id']}}">{{$user['name']}}</option>
                     @endforeach
                 </select>
             </div>
             <button class="btn btn-add">
-                Add
+                {{__('messages.add')}}
                 <ion-icon class="modal-icon" name="paper-plane-outline"></ion-icon>
             </button>
         </form>

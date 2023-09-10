@@ -6,7 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tabali CRM - @yield('title')</title>
   <link href="{{url('/')}}/fonts/stylesheet.css" rel="stylesheet" />
+  @if(session('locale')=='ar' )
+  <link href="{{url('/')}}/css/style-ar.css" rel="stylesheet" />
+  @else
   <link href="{{url('/')}}/css/style.css" rel="stylesheet" />
+  @endif
   <link href="{{url('/')}}/css/queries.css" rel="stylesheet" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,16 +46,16 @@
               </p>
             </li>
             <li class="nav-item @if(Route::is('dashboard')) nav-item-cta @endif">
-              <a href="/dashboard">Dashboard</a>
+              <a href="/dashboard">{{__('messages.dashboard')}}</a>
             </li>
             <li
               class="nav-item @if(Route::is('teams') || Route::is('team') || Route::is('team-search'))  nav-item-cta @endif">
-              <a href="/teams">Teams</a>
+              <a href="/teams">{{__('messages.teams')}}</a>
             </li>
             <li class="nav-item @if(Route::is('tasks') || Route::is('task')) nav-item-cta @endif"><a
-                href="/tasks">Tasks</a></li>
+                href="/tasks">{{__('messages.tasks')}}</a></li>
             <li class="nav-item @if(Auth::user()->role == 'User')  hidden @endif">
-              <a href="/users">Users</a>
+              <a href="/users">{{__('messages.users')}}</a>
             </li>
             <li class='nav-item empty-li'>
             </li>
@@ -65,9 +69,21 @@
           </picture>
         </a>
         <div class="right-heading">
-          <p class="welcome-title white-font hide"><span class='smaller-font'>Welcome</span>
+          <p class="welcome-title white-font hide"><span class='smaller-font'>{{__('messages.welcome')}}</span>
             <span>@yield('username')</span>
           </p>
+          <form class="language-form" method='POST' action="{{route('change-locale')}}">
+            @csrf
+            @method('POST')
+            <select class="language-box" name="locale" id="locale">
+              <option @if(session('locale')=='en' ) selected @endif value="en">
+                En
+              </option>
+              <option @if(session('locale')=='ar' ) selected @endif value="ar">
+                Ar
+              </option>
+            </select>
+          </form>
           <form method="POST" action="/logout">
             @csrf
             @method('POST')
@@ -87,8 +103,7 @@
     </main>
     <footer>
       <p class="copyright">
-        Copyright &copy; <span class="year">2023</span> &ThinSpace; by Hussein
-        Medhat, Inc. All rights reserved.
+        {{__('messages.copyrights')}}
       </p>
     </footer>
     @yield('modals')

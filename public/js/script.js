@@ -29,7 +29,9 @@ const settingsNavs = selectAll(".settings-nav");
 
 let btnsDeleteUser = selectAll(".btn-user-delete");
 const participantsText = select(".participants");
-const btnAddUser = select(".btn-add");
+const btnAddUser = select(".btn-add-parti");
+
+const languageSelect = select(".language-box");
 
 const body = document.body;
 
@@ -38,11 +40,41 @@ const addEventListenerIf = (element, event, callback) => {
         element.addEventListener(event, callback);
     }
 };
+addEventListenerIf(languageSelect, "change", (e) => {
+    const form = languageSelect.closest("form");
+    const requestLink = form.action;
+    const locale = languageSelect.value;
+    const csrfToken = form.querySelector("input[name='_token']").value;
+    fetch(requestLink, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": csrfToken,
+        },
+        body: JSON.stringify({
+            locale: locale,
+        }),
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json();
+        })
+        .then((data) => {
+            window.location.reload();
+        })
+        .catch((error) => {
+            console.error(
+                "There was a problem with the fetch operation:",
+                error
+            );
+        });
+});
 addEventListenerIf(btnAddUser, "click", (e) => {
     e.preventDefault();
     const form = btnAddUser.closest("form");
     const modal = btnAddUser.closest(".modal");
-    console.log(modal);
     let ulElement = modal.querySelector("ul");
 
     const requestLink = form.action;

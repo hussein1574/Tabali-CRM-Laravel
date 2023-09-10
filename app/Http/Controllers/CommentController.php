@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Http\RedirectResponse;
 
 class CommentController extends Controller
@@ -21,9 +22,17 @@ class CommentController extends Controller
         ]);
 
         if ($comment) {
-            return redirect()->back()->with('success', 'Commented successfully.');
+            if (App::isLocale('en')) {
+                return redirect()->back()->with('success', 'Commented successfully.');
+            } else {
+                return redirect()->back()->with('نجاح', 'تم نشر تعليقك');
+            }
         } else {
-            return redirect()->back()->with('error', 'Failed to comment.');
+            if (App::isLocale('en')) {
+                return redirect()->back()->with('error', 'Failed to comment.');
+            } else {
+                return redirect()->back()->with('خطأ', 'حدث خطأ اثناء نشر تعليقك, رجاء اعادة المحاولة');
+            }
         }
     }
 }

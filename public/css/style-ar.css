@@ -11,6 +11,7 @@ body {
     font-family: "Rubik", "Museo Slab", sans-serif;
     overflow-x: hidden;
     height: 100vh;
+    text-align: right;
 }
 .page {
     position: relative;
@@ -176,12 +177,14 @@ footer {
 }
 .heading-nav {
     display: flex;
+    flex-direction: row-reverse;
     justify-content: space-between;
     background-color: #674030;
     padding: 0.8rem 4.8rem;
 }
 .left-heading {
     display: flex;
+    flex-direction: row-reverse;
     align-items: center;
     justify-content: center;
     gap: 6.5rem;
@@ -213,6 +216,7 @@ footer {
 .nav-items {
     list-style-type: none;
     display: flex;
+    flex-direction: row-reverse;
     align-items: center;
     justify-content: center;
     gap: 6.5rem;
@@ -233,6 +237,7 @@ footer {
 }
 .right-heading {
     display: flex;
+    flex-direction: row-reverse;
     align-items: center;
     justify-content: center;
     gap: 2rem;
@@ -263,7 +268,9 @@ footer {
     color: #f3a51d;
 }
 .logout-icon {
+    display: inline-block;
     font-size: 4rem;
+    transform: scaleX(-1);
 }
 
 .nav-item-cta {
@@ -274,6 +281,7 @@ footer {
 
 .heading-bar {
     display: flex;
+    flex-direction: row-reverse;
     justify-content: space-between;
     padding: 1rem 4.8rem;
     box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.08);
@@ -289,6 +297,7 @@ footer {
     width: 97.5rem;
     margin: 0 auto;
     display: flex;
+    flex-direction: row-reverse;
     align-items: center;
     justify-content: center;
     gap: 8rem;
@@ -297,7 +306,7 @@ footer {
     padding: 3.2rem 5.2rem;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: flex-end;
 
     box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.08);
 }
@@ -317,6 +326,7 @@ footer {
     width: 97.5rem;
     margin: 0 auto;
     display: flex;
+    flex-direction: row-reverse;
     align-items: flex-start;
     justify-content: center;
     gap: 3.2rem;
@@ -342,6 +352,7 @@ footer {
     top: 0;
     background-color: #fff;
     display: flex;
+    flex-direction: row-reverse;
     justify-content: flex-start;
     align-items: center;
     gap: 0.3rem;
@@ -354,7 +365,7 @@ footer {
     text-align: center;
     color: #000;
     font-size: 3.2rem;
-    padding: 1.5rem 4.8rem 1.5rem 0rem;
+    padding: 1.5rem 0rem 1.5rem 0rem;
     font-weight: 600;
     line-height: 1.5;
     letter-spacing: -0.072rem;
@@ -372,6 +383,7 @@ footer {
 .data-item {
     width: 100%;
     display: flex;
+    flex-direction: row-reverse;
     justify-content: space-between;
     align-items: center;
 }
@@ -386,6 +398,7 @@ footer {
     font-size: 1.3rem;
     font-weight: 300;
     width: 26rem;
+    text-align: right;
 }
 .data-role-title {
     color: #8e919b;
@@ -445,11 +458,13 @@ a.data-additional:active {
 .search-section {
     margin: 2rem 6rem;
     display: flex;
+    flex-direction: row-reverse;
     gap: 2rem;
     align-items: center;
 }
 .tabs {
     display: flex;
+    flex-direction: row-reverse;
 }
 .tab,
 .tab:link,
@@ -479,12 +494,13 @@ a.data-additional:active {
 .input-search {
     width: 24rem;
     height: 4rem;
-    padding: 1.2rem 1.2rem 1.2rem 3.2rem;
+    padding: 1.2rem 3.2rem 1.2rem 1.2rem;
     border-radius: 6px;
     border: 1.5px solid rgba(17, 17, 17, 0.2);
     font-family: inherit;
     font-size: 1.6rem;
     font-weight: 600;
+    text-align: right;
 }
 .btn-search {
     border: none;
@@ -492,7 +508,7 @@ a.data-additional:active {
     cursor: pointer;
     position: absolute;
     top: 24%;
-    left: 3%;
+    right: 3%;
 }
 .btn-search ion-icon {
     font-size: 2rem;
@@ -520,6 +536,7 @@ a.data-additional:active {
     justify-content: space-between;
     align-items: center;
     box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.1);
+    flex-direction: row-reverse;
     /* border: 0.1px solid rgba(0, 0, 0, 0.08); */
 }
 .page-data-title,
@@ -611,12 +628,17 @@ a.data-additional:active {
 }
 .left-part {
     width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-end;
 }
 .right-part {
     width: 50%;
     display: flex;
     justify-content: flex-end;
     align-items: flex-start;
+    flex-direction: row-reverse;
     gap: 8rem;
 }
 
@@ -676,6 +698,7 @@ a.data-additional:active {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: row-reverse;
     gap: 0.5rem;
     background-color: #674030;
     color: #fff;
@@ -690,7 +713,7 @@ a.data-additional:active {
     display: flex;
     justify-content: center;
     align-items: center;
-    transform: rotate(45deg);
+    transform: rotate(225deg);
     font-size: 2rem;
 }
 
@@ -1007,7 +1030,7 @@ a.data-additional:active {
     z-index: 999;
     position: absolute;
     top: 60%;
-    right: -3%;
+    left: -3%;
 
     transition: all 0.3s ease-in-out;
 

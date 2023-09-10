@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Teams')
+@section('title', __('messages.teams'))
 @section('username', Auth::user()->name)
 
 @php
@@ -9,21 +9,21 @@ $isAdmin = Auth::user()->role == 'Admin'
 @endphp
 
 @section('heading-bar')
-<h1 class="main-heading"><a class='heading-link' href="/teams">Teams</a></h1>
+<h1 class="main-heading"><a class='heading-link' href="/teams">{{__('messages.teams')}}</a></h1>
 @if($isAdmin)
-<button class="btn btn--new">New team</button>
+<button class="btn btn--new">{{__('messages.newTeam')}}</button>
 @endif
 @endsection
 
 
 
 @section('main')
-@if (session('success'))
+@if (session(__('messages.success'))))
 <div class="modal-holder-message appear">
     <div class="modal">
         <ion-icon class='danger-icon' name="checkmark-done-circle-outline"></ion-icon>
-        <h2 class="form-title">Success</h2>
-        <p class="alert alert-success bigger-font">{{ session('success') }}</p>
+        <h2 class="form-title">{{__('messages.success')}}</h2>
+        <p class="alert alert-success bigger-font">{{ session(__('messages.success')) }}</p>
         <button class="btn btn-close-message">
             <ion-icon class="modal-icon modal-icon-close" name="close-outline"></ion-icon>
         </button>
@@ -34,7 +34,7 @@ $isAdmin = Auth::user()->role == 'Admin'
 <div class="modal-holder-message appear">
     <div class="modal">
         <ion-icon class='danger-icon' name="alert-circle-outline"></ion-icon>
-        <h2 class="form-title">Error</h2>
+        <h2 class="form-title">{{__('messages.error')}}</h2>
         {!! $errors->all('<div class="alert alert-danger bigger-font">:message</div>')[0] !!}
         <button class="btn btn-close-message">
             <ion-icon class="modal-icon modal-icon-close" name="close-outline"></ion-icon>
@@ -47,9 +47,10 @@ $isAdmin = Auth::user()->role == 'Admin'
     <form class="search" method="GET" action="/teams">
         @if(request()->query('search'))
         <input class="input-search" type="text" id="search" value='{{request()->query('search')}}'
-            placeholder="Search for team" name="search" />
+            placeholder="{{__('messages.searchForTeam')}}" name="search" />
         @else
-        <input class="input-search" type="text" id="search" placeholder="Search for team" name="search" />
+        <input class="input-search" type="text" id="search" placeholder="{{__('messages.searchForTeam')}}"
+            name="search" />
         @endif
         <button class="btn-search">
             <ion-icon name="search-outline"></ion-icon>
@@ -60,7 +61,7 @@ $isAdmin = Auth::user()->role == 'Admin'
     @if(count($teams) == 0)
     <div class="modal no-box-shadow margin-top-medium">
         <ion-icon class='danger-icon' name="alert-outline"></ion-icon>
-        <h2 class="form-title">No Teams Found</h2>
+        <h2 class="form-title">{{__('messages.noTeamsFound')}}</h2>
     </div>
     @else
     <div class="page-items">
@@ -71,7 +72,7 @@ $isAdmin = Auth::user()->role == 'Admin'
                     <a href="/team?id={{$team['id']}}" class="page-data-title">{{$team['name']}}</a>
                 </div>
                 <div class="right-part">
-                    <p class="page-data-date">Created at:
+                    <p class="page-data-date">{{__('messages.createdAt')}}:
                         {{\Carbon\Carbon::parse($team['created_at'])->toDateString()}}</p>
                     @if(Auth::user()->role == 'Admin')
                     <form method="POST" action="/delete-team">
@@ -140,16 +141,16 @@ $isAdmin = Auth::user()->role == 'Admin'
 @section('modals')
 <div class="modal-holder">
     <div class="modal">
-        <h2 class="form-title">Create a team ?</h2>
+        <h2 class="form-title">{{__('messages.createTeam')}}</h2>
         <form class="sign-form" method="POST" action="/add-team">
             @csrf
             @method('POST')
             <div class="input-holder">
-                <label class="input-label" for="name">Team name</label>
+                <label class="input-label" for="name">{{__('messages.teamName')}}</label>
                 <input class="input-box" id="name" type="text" name="name" required />
             </div>
             <button class="btn btn-add">
-                Add
+                {{__('messages.add')}}
                 <ion-icon class="modal-icon" name="paper-plane-outline"></ion-icon>
             </button>
         </form>

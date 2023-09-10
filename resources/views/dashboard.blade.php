@@ -1,9 +1,9 @@
 @extends('layouts.app')
-@section('title', 'Dashboard')
+@section('title', __('messages.dashboard'))
 @section('username', Auth::user()->name)
 
 @section('heading-bar')
-<h1 class="main-heading">Dashboard</h1>
+<h1 class="main-heading">{{__('messages.dashboard')}}</h1>
 @endsection
 
 @php
@@ -35,15 +35,15 @@ if(in_array(Auth::user()->name,$team['members'])) $teamMembersCount -= 1;
 <section class="stats-section">
     <div class="stats">
         <div class="stats-card">
-            <p class="stat-desc">Current Tasks</p>
+            <p class="stat-desc">{{__('messages.curTasks')}}</p>
             <p class="stat-value">{{ $openedTasksCount}}</p>
         </div>
         <div class="stats-card">
-            <p class="stat-desc">Team members</p>
+            <p class="stat-desc">{{__('messages.members')}}</p>
             <p class="stat-value">{{$teamMembersCount}}</p>
         </div>
         <div class="stats-card">
-            <p class="stat-desc">Today deadlines</p>
+            <p class="stat-desc">{{__('messages.deadlines')}}</p>
             <p class="stat-value">{{$deadlinesCount}}</p>
         </div>
     </div>
@@ -53,23 +53,24 @@ if(in_array(Auth::user()->name,$team['members'])) $teamMembersCount -= 1;
         <div class="data-card  @if(count($tasks) > 4) scrollable @endif">
             <header class="data-card-header">
                 <ion-icon class="data-card-icon tasks-icon" name="list-circle-outline"></ion-icon>
-                <h2 class="data-card-title">Tasks</h2>
+                <h2 class="data-card-title">{{__('messages.tasks')}}</h2>
             </header>
             @if($openedTasksCount == 0)
             <div class="modal no-box-shadow">
                 <ion-icon class='orange-icon' name="alert-outline"></ion-icon>
-                <h2 class="form-title">No Tasks Yet</h2>
+                <h2 class="form-title">{{__('messages.noTasks')}}</h2>
             </div>
             @else
             <ul class="data-list" @if(count($tasks)>= 4) scrollable @endif>
                 @foreach($tasks as $task)
                 @if($task['status'] != 'Closed')
                 <li class="data-item">
-                    <a href="/task?id={{$task['id']}}">
+                    <a class='data-additional-right' href="/task?id={{$task['id']}}">
                         <h3 class="data-title">{{ $task['name'] }}</h3>
                         <p class="data-desc">{!! nl2br(Str::limit($task['description'], 100)) !!}</p>
                     </a>
-                    <p class="data-additional">Deadline: {{\Carbon\Carbon::parse($task['deadline'])->toDateString();}}
+                    <p class="data-additional">{{__('messages.deadline')}}:
+                        {{\Carbon\Carbon::parse($task['deadline'])->toDateString();}}
                     </p>
                 </li>
                 @endif
@@ -82,12 +83,12 @@ if(in_array(Auth::user()->name,$team['members'])) $teamMembersCount -= 1;
         <div class="data-card team-card @if($teamMembersCount > 4) scrollable @endif">
             <header class="data-card-header">
                 <ion-icon class="data-card-icon team-icon" name="people-circle-outline"></ion-icon>
-                <h2 class="data-card-title">Team</h2>
+                <h2 class="data-card-title">{{__('messages.teams')}}</h2>
             </header>
             @if(count($teams) == 0)
             <div class="modal no-box-shadow">
                 <ion-icon class='green-icon ' name="alert-outline"></ion-icon>
-                <h2 class="form-title">Not In Any Team Yet</h2>
+                <h2 class="form-title">{{__('messages.noTeams')}}</h2>
             </div>
             @else
             <ul class="data-list">
