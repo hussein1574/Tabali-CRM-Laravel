@@ -58,7 +58,7 @@ class TaskController extends Controller
     {
         $credentials = $request->validate([
             'title' => ['required', 'min:5', 'max:255'],
-            'description' => ['required', 'min:50', 'max:5000'],
+            'description' => ['required', 'min:5', 'max:5000'],
             'deadline' => [
                 'required', 'date',
                 'after_or_equal:' . Carbon::today()->format('Y-m-d'),

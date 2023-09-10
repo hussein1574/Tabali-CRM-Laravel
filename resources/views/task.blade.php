@@ -223,7 +223,7 @@ $isAdmin = Auth::user()->role == 'Admin'
             </div>
             @endif
 
-            <button class="btn btn-add">
+            <button class="btn btn-add btn-add-parti">
                 {{__('messages.add')}}
                 <ion-icon class="modal-icon" name="paper-plane-outline"></ion-icon>
             </button>
