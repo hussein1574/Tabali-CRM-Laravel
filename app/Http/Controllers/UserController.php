@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Validation\Rules\Password;
@@ -38,9 +39,17 @@ class UserController extends Controller
             $user->role = $request->role;
             $user->is_activated = $request->active == 'active' ? true : false;
             $user->save();
-            return redirect()->route('users')->with('success', 'User updated successfully.');
+            if (App::isLocale('en')) {
+                return redirect()->route('users')->with('success', 'User updated successfully.');
+            } else {
+                return redirect()->route('users')->with('نجاح', 'تم تحديث بيانات المستخدم بنجاح');
+            }
         } else {
-            return redirect()->route('users')->with('error', 'Failed to update user.');
+            if (App::isLocale('en')) {
+                return redirect()->route('users')->with('error', 'Failed to update user.');
+            } else {
+                return redirect()->route('users')->with('خطأ', 'حدث خطأ اثناء تحديث بيانات المستخدم , الرجاء اعادة المحاولة ');
+            }
         }
     }
     public function delete(Request $request): RedirectResponse
@@ -49,9 +58,17 @@ class UserController extends Controller
 
         if ($user) {
             $user->delete();
-            return redirect()->route('users')->with('success', 'User deleted successfully.');
+            if (App::isLocale('en')) {
+                return redirect()->route('users')->with('success', 'User deleted successfully.');
+            } else {
+                return redirect()->route('users')->with('نجاح', 'تم حذف المستخدم بنجاح');
+            }
         } else {
-            return redirect()->route('users')->with('error', 'Failed to delete user.');
+            if (App::isLocale('en')) {
+                return redirect()->route('users')->with('error', 'Failed to delete user.');
+            } else {
+                return redirect()->route('users')->with('خطأ', 'حدث خطأ اثناء حذف المستخدم , الرجاء اعادة المحاولة ');
+            }
         }
     }
     function search($searchInput, $usersQuery)

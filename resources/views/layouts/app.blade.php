@@ -68,6 +68,21 @@
           <p class="welcome-title white-font hide"><span class='smaller-font'>Welcome</span>
             <span>@yield('username')</span>
           </p>
+          <form class="right-heading" method='POST' action="{{route('change-locale')}}">
+            @csrf
+            @method('POST')
+            <select class="language-box" name="locale" id="locale">
+              <option selected="true" value="en">
+                English
+              </option>
+              <option value="ar">
+                Arabic
+              </option>
+            </select>
+            <button title="Logout" class="profile">
+              Change language
+            </button>
+          </form>
           <form method="POST" action="/logout">
             @csrf
             @method('POST')

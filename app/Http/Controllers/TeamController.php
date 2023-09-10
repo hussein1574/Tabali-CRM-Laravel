@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\UsersTeam;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Http\RedirectResponse;
 
 class TeamController extends Controller
@@ -36,6 +37,7 @@ class TeamController extends Controller
     }
     public function add(Request $request): RedirectResponse
     {
+
         $credentials = $request->validate([
             'name' => ['required', 'min:5', 'max:255'],
         ]);
@@ -44,11 +46,18 @@ class TeamController extends Controller
             'name' => $credentials['name'],
         ]);
 
-
         if ($team) {
-            return redirect()->route('teams')->with('success', 'Team added successfully.');
+            if (App::isLocale('en')) {
+                return redirect()->route('teams')->with('success', 'Team added successfully.');
+            } else {
+                return redirect()->route('teams')->with('نجاح', 'تم اضافة فريق بنجاح');
+            }
         } else {
-            return redirect()->route('teams')->with('error', 'Failed to add team.');
+            if (App::isLocale('en')) {
+                return redirect()->route('teams')->with('error', 'Failed to add team.');
+            } else {
+                return redirect()->route('teams')->with('خطأ', 'حدث خطأ اثناء اضافة الفريق, برجاء اعادة المحاولة مجددا');
+            }
         }
     }
     public function delete(Request $request): RedirectResponse
@@ -57,9 +66,17 @@ class TeamController extends Controller
 
         if ($team) {
             $team->delete();
-            return redirect()->route('teams')->with('success', 'Team deleted successfully.');
+            if (App::isLocale('en')) {
+                return redirect()->route('teams')->with('success', 'Team deleted successfully.');
+            } else {
+                return redirect()->route('teams')->with('نجاح', 'تم حذف الفريق بنجاح');
+            }
         } else {
-            return redirect()->route('teams')->with('error', 'Failed to delete team.');
+            if (App::isLocale('en')) {
+                return redirect()->route('teams')->with('error', 'Failed to delete team.');
+            } else {
+                return redirect()->route('teams')->with('خطأ', 'حدث خطأ اثناء حذف الفريق, برجاء اعادة المحاولة مجددا');
+            }
         }
     }
     public function teamIndex(Request $request): View
@@ -99,13 +116,21 @@ class TeamController extends Controller
             $userTeamRecord->team_role = 'Member';
         }
         $userTeamRecord->save();
-        return redirect()->back()->with('success', "User role changed successfully");
+        if (App::isLocale('en')) {
+            return redirect()->back()->with('success', "User role changed successfully");
+        } else {
+            return redirect()->back()->with('نجاح', "تم تغير وظيفة العضو بالفريق بنجاح");
+        }
     }
     public function removeTeamMember(Request $request): RedirectResponse
     {
         $userTeamRecord = UsersTeam::where('team_id', $request->team_id)->where('user_id', $request->user_id)->first();
         $userTeamRecord->delete();
-        return redirect()->back()->with('success', "User removed from the team successfully");
+        if (App::isLocale('en')) {
+            return redirect()->back()->with('success', "User removed from the team successfully");
+        } else {
+            return redirect()->back()->with('نجاح', "تم حذف العضو من الفريق بنجاح");
+        }
     }
     public function addTeamMember(Request $request): RedirectResponse
     {
@@ -113,7 +138,10 @@ class TeamController extends Controller
             'user_id' => $request->user_id,
             'team_id' => $request->team_id
         ]);
-
-        return redirect()->back()->with('success', "User added successfully");
+        if (App::isLocale('en')) {
+            return redirect()->back()->with('success', "User added successfully");
+        } else {
+            return redirect()->back()->with('نجاح', "تم اضافة عضو الي الفريق بنجاح");
+        }
     }
 }

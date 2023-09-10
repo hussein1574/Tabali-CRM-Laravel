@@ -29,7 +29,7 @@ const settingsNavs = selectAll(".settings-nav");
 
 let btnsDeleteUser = selectAll(".btn-user-delete");
 const participantsText = select(".participants");
-const btnAddUser = select(".btn-add");
+const btnAddUser = select(".btn-add-parti");
 
 const body = document.body;
 

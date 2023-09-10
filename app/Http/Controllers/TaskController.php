@@ -11,6 +11,7 @@ use App\Models\UsersTeam;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\App;
 use Illuminate\Http\RedirectResponse;
 
 class TaskController extends Controller
@@ -77,9 +78,18 @@ class TaskController extends Controller
         ]);
 
         if ($taskUser) {
-            return redirect()->route('tasks')->with('success', 'Task added successfully.');
+
+            if (App::isLocale('en')) {
+                return redirect()->route('tasks')->with('success', 'Task added successfully.');
+            } else {
+                return redirect()->route('tasks')->with('نجاح', 'تم اضافة المهمة بنجاح');
+            }
         } else {
-            return redirect()->route('tasks')->with('error', 'Failed to add task.');
+            if (App::isLocale('en')) {
+                return redirect()->route('tasks')->with('error', 'Failed to add task.');
+            } else {
+                return redirect()->route('tasks')->with('خطأ', 'حدث خطأ ما اثناء اضافة المهمة. الرجاء المحاولة مجددا');
+            }
         }
     }
     public function taskIndex(Request $request): View
@@ -135,8 +145,11 @@ class TaskController extends Controller
         $task->priority = $request->priority;
         $task->status = $request->status;
         $task->save();
-
-        return redirect()->back()->with('success', 'Task Updated successfully.');
+        if (App::isLocale('en')) {
+            return redirect()->back()->with('success', 'Task Updated successfully.');
+        } else {
+            return redirect()->back()->with('نجاح', 'تم تحديث المهمة بنجاح');
+        }
     }
     public function deleteTask(Request $request): RedirectResponse
     {
@@ -144,9 +157,17 @@ class TaskController extends Controller
 
         if ($task) {
             $task->delete();
-            return redirect()->route('tasks')->with('success', 'Task deleted successfully.');
+            if (App::isLocale('en')) {
+                return redirect()->route('tasks')->with('success', 'Task deleted successfully.');
+            } else {
+                return redirect()->route('tasks')->with('نجاح', 'تم حذف المهمة بنجاح');
+            }
         } else {
-            return redirect()->back()->with('error', 'Failed to delete task.');
+            if (App::isLocale('en')) {
+                return redirect()->back()->with('error', 'Failed to delete task.');
+            } else {
+                return redirect()->back()->with('خطأ', 'حدث خطأ ما اثناء حذف المهمة . الرجاء المحاولة مجددا');
+            }
         }
     }
     public function acceptTask(Request $request): RedirectResponse
@@ -154,25 +175,34 @@ class TaskController extends Controller
         $task = Task::where('id', $request->task_id)->first();
         $task->status = 'closed';
         $task->save();
-
-        return redirect()->back()->with('success', 'The task is done 😊');
+        if (App::isLocale('en')) {
+            return redirect()->back()->with('success', 'The task is done 😊');
+        } else {
+            return redirect()->back()->with('نجاح', 'المهمة تمت بنجاح 😊');
+        }
     }
     public function rejectTask(Request $request): RedirectResponse
     {
         $task = Task::where('id', $request->task_id)->first();
         $task->status = 'opened';
         $task->save();
-
-        return redirect()->back()->with('success', 'The task is opened again 😒');
+        if (App::isLocale('en')) {
+            return redirect()->back()->with('success', 'The task is opened again 😒');
+        } else {
+            return redirect()->back()->with('نجاح', 'تم فتح المهمة مجددا 😒');
+        }
     }
     public function submitTask(Request $request): RedirectResponse
     {
         $task = Task::where('id', $request->task_id)->first();
         $task->status = 'pending';
         $task->save();
-
-        return redirect()->back()->with('success', "You've submited the task successfully.
+        if (App::isLocale('en')) {
+            return redirect()->back()->with('success', "You've submited the task successfully.
          Wait for the admin response");
+        } else {
+            return redirect()->back()->with('نجاح', "تم تسليم المهمة بنجاح , الرجاء انتظار اجابة المدير");
+        }
     }
     public function deleteTaskMember(Request $request)
     {

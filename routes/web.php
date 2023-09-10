@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\UserController;
@@ -50,10 +51,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/delete-task-member', [TaskController::class, 'deleteTaskMember'])->name('delete-task-member');
     Route::post('/add-task-members', [TaskController::class, 'addTaskMembers'])->name('add-task-members');
 
-
-
-
-
     // Comments Routes
     Route::post('/add-comment', [CommentController::class, 'addComment'])->name('add-comment');
+
+    //Locale Routs
+    Route::post('/change-locale', [LocaleController::class, 'changeLocale'])->name('change-locale');
 });
