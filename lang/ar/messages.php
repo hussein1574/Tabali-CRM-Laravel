@@ -31,6 +31,6 @@ return [
     'removeAdmin' => 'إزالة كمسؤول',
     'assignAdmin' => 'إضافة كمسؤول',
     'noMembersFound' => 'لم يتم ايجاد اي اعضاء',
-    'users' => 'اسماء المستخدمين',
+    'usersNames' => 'اسماء المستخدمين',
     'role' => 'صلاحية'
 ];

@@ -175,7 +175,7 @@ $team['id'])->first()->team_role == 'Team Admin';
             @method('put')
             <div class="input-holder">
                 <input hidden id='team_id' name='team_id' value='{{$team['id']}}' />
-                <label class="input-label" for="user_id">{{__('messages.users')}}</label>
+                <label class="input-label" for="user_id">{{__('messages.usersNames')}}</label>
                 <select class="input-box" name="user_id" id="user_id">
                     <option value='' disabled="disabled">{{__('messages.chooseUser')}}</option>
                     @foreach($users as $user)
