@@ -806,7 +806,7 @@ a.data-additional:active {
     border-radius: 10px;
 }
 .comments {
-    height: 30rem;
+    max-height: 30rem;
     display: flex;
     flex-direction: column;
     align-items: center;

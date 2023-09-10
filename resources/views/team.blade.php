@@ -79,7 +79,8 @@ $team['id'])->first()->team_role == 'Team Admin';
                 <div class="right-part">
                     <div class="role">
                         <h3 class="data-role-title">{{__('messages.role')}}</h3>
-                        <p class="data-role-desc">{{$member['team_role']}}</p>
+                        <p class="data-role-desc">
+                            {{$member['team_role'] == 'Member' ? __('messages.member') : __('messages.teamAdmin') }}</p>
                     </div>
                     @if($isAdmin)
                     <button class="settings settings-open-list">

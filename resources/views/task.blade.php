@@ -49,8 +49,8 @@ $isAdmin = Auth::user()->role == 'Admin'
             @method('POST')
             <input hidden id='task_id' name='task_id' value='{{$task['id']}}' />
             <textarea class="input-box input-box--comment" id="description" name="description"
-                placeholder="Write your comment!" rows="5" required></textarea>
-            <button class="btn btn--add-comment">Add comment</button>
+                placeholder="{{__('messages.writeComment')}}" rows="5" required></textarea>
+            <button class="btn btn--add-comment">{{__('messages.addComment')}}</button>
         </form>
         @endif
         <div class="comments @if(count($comments)>= 2) scrollable @endif">
@@ -69,20 +69,26 @@ $isAdmin = Auth::user()->role == 'Admin'
     <div class="task-control">
         <div class="task-info-holder">
             <div class="task-info">
-                <span class="task-info-title">Priority:</span>
+                <span class="task-info-title">{{__('messages.priority')}}:</span>
                 <span class="task-info-data"><span
-                        class="task-priority task-priority--{{$task['priority']}}">{{$task['priority']}}</span></span>
-                <span class="task-info-title">Status:</span>
+                        class="task-priority task-priority--{{$task['priority']}}">@if($task['priority'] === 'Low')
+                        {{__('messages.low')}}
+                        @elseif($task['priority'] === 'Normal') {{__('messages.normal')}} @else
+                        {{__('messages.severe')}} @endif</span></span>
+                <span class="task-info-title">{{__('messages.status')}}:</span>
                 <span class="task-info-data"><span
-                        class="task-priority task-priority--{{$task['status']}}">{{$task['status']}}</span></span>
-                <span class="task-info-title">Date added:</span>
+                        class="task-priority task-priority--{{$task['status']}}">@if($task['status'] === 'Opened')
+                        {{__('messages.activeFilter')}}
+                        @elseif($task['status'] === 'Pending') {{__('messages.pendingFilter')}} @else
+                        {{__('messages.closedFilter')}} @endif</span></span>
+                <span class="task-info-title">{{__('messages.createdAt')}}:</span>
                 <span class="task-info-data">{{\Carbon\Carbon::parse($task['created_at'])->toDateString()}}</span>
-                <span class="task-info-title">Deadline:</span>
+                <span class="task-info-title">{{__('messages.deadline')}}:</span>
                 <span class="task-info-data">{{\Carbon\Carbon::parse($task['deadline'])->toDateString()}}</span>
-                <span class="task-info-title">Participants:</span>
+                <span class="task-info-title">{{__('messages.participants')}}:</span>
                 <span class="task-info-data participants">
                     @if(count($members) == 0)
-                    No participants
+                    {{__('messages.noParticipants')}}
                     @else
                     @foreach($members as $id => [$name , $email])
                     {{$name}}
@@ -96,13 +102,13 @@ $isAdmin = Auth::user()->role == 'Admin'
         </div>
         @if($IsTaskOwner || $isAdmin)
         <button class="btn btn--task btn--parti">
-            <ion-icon class="task-btn-icon" name="person-add-outline"></ion-icon>Add participant
+            <ion-icon class="task-btn-icon" name="person-add-outline"></ion-icon>{{__('messages.addParticipants')}}
         </button>
         <button class="btn btn--task btn--edit">
-            <ion-icon class="task-btn-icon" name="create-outline"></ion-icon>Edit task
+            <ion-icon class="task-btn-icon" name="create-outline"></ion-icon>{{__('messages.editTask')}}
         </button>
         <button class="btn btn--task btn--delete">
-            <ion-icon class="task-btn-icon" name="trash-outline"></ion-icon>Delete task
+            <ion-icon class="task-btn-icon" name="trash-outline"></ion-icon>{{__('messages.deleteTask')}}
         </button>
         @if($task['status'] == 'Pending')
         <form class='button-form' method='post' action='/accept-task'>
@@ -110,7 +116,7 @@ $isAdmin = Auth::user()->role == 'Admin'
             @method('POST')
             <input hidden id='task_id' name='task_id' value='{{$task['id']}}' />
             <button class="btn btn--task btn--accept">
-                <ion-icon class="task-btn-icon" name="checkmark-outline"></ion-icon>Accept task
+                <ion-icon class="task-btn-icon" name="checkmark-outline"></ion-icon>{{__('messages.acceptTask')}}
             </button>
         </form>
         <form class='button-form' method='post' action='/reject-task'>
@@ -118,8 +124,7 @@ $isAdmin = Auth::user()->role == 'Admin'
             @method('POST')
             <input hidden id='task_id' name='task_id' value='{{$task['id']}}' />
             <button class="btn btn--task btn--reject">
-                <ion-icon class="task-btn-icon" name="close-outline"></ion-icon>Reject task
-            </button>
+                <ion-icon class="task-btn-icon" name="close-outline"></ion-icon>{{__('messages.rejectTask')}}
         </form>
         @endif
         @else
@@ -129,7 +134,7 @@ $isAdmin = Auth::user()->role == 'Admin'
             @method('POST')
             <input hidden id='task_id' name='task_id' value='{{$task['id']}}' />
             <button class="btn btn--task btn--accept">
-                <ion-icon class="task-btn-icon" name="checkmark-outline"></ion-icon>Submit task
+                <ion-icon class="task-btn-icon" name="checkmark-outline"></ion-icon>{{__('messages.submitTask')}}
             </button>
         </form>
         @endif
@@ -141,11 +146,11 @@ $isAdmin = Auth::user()->role == 'Admin'
 @section('modals')
 <div class="modal-holder modal--add">
     <div class="modal">
-        <h2 class="form-title">Current participants</h2>
+        <h2 class="form-title">{{__('messages.currentParti')}}</h2>
         @if(count($members) == 0)
         <div class="modal no-box-shadow">
             <ion-icon class='orange-icon' name="alert-outline"></ion-icon>
-            <h3 class="form-title lighter-font">No participants Yet</h3>
+            <h3 class="form-title lighter-font">{{__('messages.noParticipants')}}</h3>
         </div>
         @else
         <ul class="user-lines @if(count($members) >= 4) scrollable @endif">
@@ -166,17 +171,17 @@ $isAdmin = Auth::user()->role == 'Admin'
         </ul>
         @endif
 
-        <h2 class="form-title">Add a new participants</h2>
+        <h2 class="form-title">{{__('messages.addNewParti')}}</h2>
         <form class="sign-form" method='post' action='{{route('add-task-members')}}'>
             @csrf
             @method('POST')
             <input hidden id='task_id' name='task_id' value='{{$task['id']}}' />
             @if(!$isAdmin)
             <div class="input-holder input-teams">
-                <label class="input-label" for="team_id">Your teams</label>
+                <label class="input-label" for="team_id">{{__('messages.teamNames')}}</label>
                 <select class="input-box" name="team_id" id="team_id">
                     <option selected="true" disabled="disabled" value="">
-                        Please choose
+                        {{__('messages.pleaseChoose')}}
                     </option>
                     @foreach($teamsWhereUserIsAdmin as $id => $name )
                     <option value="{{$id}}">{{$name}}</option>
@@ -185,20 +190,20 @@ $isAdmin = Auth::user()->role == 'Admin'
             </div>
             @else
             <div class="input-holder">
-                <label class="input-label" for="type">Who do you want to add ?</label>
+                <label class="input-label" for="type">{{__('messages.addNewMessage')}}</label>
                 <select class="input-box type-select" name="type" id="type">
                     <option selected="true" disabled="disabled" value="">
-                        Please choose
+                        {{__('messages.pleaseChoose')}}
                     </option>
-                    <option value="user">User</option>
-                    <option value="team">Team</option>
+                    <option value="user">{{__('messages.user')}}</option>
+                    <option value="team">{{__('messages.team')}}</option>
                 </select>
             </div>
             <div class="input-holder input-users hidden">
-                <label class="input-label" for="user_id">User Emails</label>
+                <label class="input-label" for="user_id">{{__('messages.users')}}</label>
                 <select class="input-box" name="user_id" id="user_id">
                     <option selected="true" disabled="disabled" value="">
-                        Please choose
+                        {{__('messages.pleaseChoose')}}
                     </option>
                     @foreach($users as $user)
                     <option value="{{$user['id']}}">{{$user['name']}}</option>
@@ -206,10 +211,10 @@ $isAdmin = Auth::user()->role == 'Admin'
                 </select>
             </div>
             <div class="input-holder input-teams hidden">
-                <label class="input-label" for="team_id">Team Names</label>
+                <label class="input-label" for="team_id">{{__('messages.teamNames')}}</label>
                 <select class="input-box" name="team_id" id="team_id">
                     <option selected="true" disabled="disabled" value="">
-                        Please choose
+                        {{__('messages.pleaseChoose')}}
                     </option>
                     @foreach($teams as $team)
                     <option value="{{$team['id']}}">{{$team['name']}}</option>
@@ -219,7 +224,7 @@ $isAdmin = Auth::user()->role == 'Admin'
             @endif
 
             <button class="btn btn-add">
-                Add
+                {{__('messages.add')}}
                 <ion-icon class="modal-icon" name="paper-plane-outline"></ion-icon>
             </button>
         </form>
@@ -232,7 +237,7 @@ $isAdmin = Auth::user()->role == 'Admin'
     <div class="modal">
         <h2 class="form-title">
             <ion-icon class="danger-icon" name="alert-circle-outline"></ion-icon>
-            Are you sure you want to delete this task ? <br />
+            {{__('messages.deleteMsg')}} <br />
             <br />
         </h2>
         <form class="sign-form" method='post' action='/delete-task'>
@@ -240,7 +245,7 @@ $isAdmin = Auth::user()->role == 'Admin'
             @method('DELETE')
 
             <input hidden id='task_id' name='task_id' value='{{$task['id']}}' />
-            <button class="btn btn-add">I'm Sure</button>
+            <button class="btn btn-add">{{__('messages.deleteConfirm')}}</button>
         </form>
         <button class="btn btn-close">
             <ion-icon class="modal-icon modal-icon-close" name="close-outline"></ion-icon>
@@ -249,43 +254,48 @@ $isAdmin = Auth::user()->role == 'Admin'
 </div>
 <div class="modal-holder modal--edit">
     <div class="modal">
-        <h2 class="form-title">Edit task</h2>
+        <h2 class="form-title">{{__('messages.editTask')}}</h2>
         <form class="sign-form" method='post' action='/edit-task'>
             @csrf
             @method('PUT')
             <input hidden id='task_id' name='task_id' value='{{$task['id']}}' />
             <div class="input-holder">
-                <label class="input-label" for="title">Task Title</label>
+                <label class="input-label" for="title">{{__('messages.taskTitle')}}</label>
                 <input class="input-box" id="title" value="{{$task['name']}}" type="text" name="title" required />
             </div>
             <div class="input-holder">
-                <label class="input-label" for="description">Task description</label>
+                <label class="input-label" for="description">{{__('messages.taskDesc')}}</label>
                 <textarea class="input-box" id="description" name="description" rows="5"
                     required>{{$task['description']}}</textarea>>
             </div>
             <div class="input-holder">
-                <label class="input-label" for="priority">Task piority</label>
+                <label class="input-label" for="priority">{{__('messages.taskPriority')}}</label>
                 <select class="input-box" name="priority" id="priority">
-                    <option @if($task['priority']=='Low' ) selected @endif value="low">Low</option>
-                    <option @if($task['priority']=='Normal' ) selected @endif value="normal">Normal</option>
-                    <option @if($task['priority']=='Severe' ) selected @endif value="severe">Severe</option>
+                    <option @if($task['priority']=='Low' ) selected @endif value="low">{{__('messages.low')}}</option>
+                    <option @if($task['priority']=='Normal' ) selected @endif value="normal">{{__('messages.normal')}}
+                    </option>
+                    <option @if($task['priority']=='Severe' ) selected @endif value="severe">{{__('messages.severe')}}
+                    </option>
                 </select>
             </div>
             <div class="input-holder">
-                <label class="input-label" for="status">Task status</label>
+                <label class="input-label" for="status">{{__('messages.status')}}</label>
                 <select class="input-box" name="status" id="status">
-                    <option @if($task['status']=='Open' ) selected @endif value="opened">Open</option>
-                    <option @if($task['status']=='Pending' ) selected @endif value="pending">Pending</option>
-                    <option @if($task['status']=='Closed' ) selected @endif value="closed">Closed</option>
+                    <option @if($task['status']=='Open' ) selected @endif value="opened">{{__('messages.activeFilter')}}
+                    </option>
+                    <option @if($task['status']=='Pending' ) selected @endif value="pending">
+                        {{__('messages.pendingFilter')}}</option>
+                    <option @if($task['status']=='Closed' ) selected @endif value="closed">
+                        {{__('messages.closedFilter')}}</option>
                 </select>
             </div>
             <div class="input-holder">
-                <label class="input-label" for="deadline">Task deadline</label>
+                <label class="input-label" for="deadline">{{__('messages.taskDeadline')}}</label>
                 <input class="input-box" id="deadline" value="{{$task['deadline']}}" type="datetime-local"
                     name="deadline" required />
             </div>
             <button class="btn btn-add">
-                Edit
+                {{__('messages.edit')}}
                 <ion-icon class="modal-icon" name="paper-plane-outline"></ion-icon>
             </button>
         </form>

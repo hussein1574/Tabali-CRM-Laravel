@@ -88,6 +88,7 @@ body {
     width: 35rem;
     border: 1px solid #cbced5;
     border-radius: 7px;
+    text-align: right;
 }
 select:focus {
     outline: none !important;
@@ -764,6 +765,7 @@ a.data-additional:active {
     width: 120rem;
     margin: 5rem auto;
     display: flex;
+    flex-direction: row-reverse;
     gap: 20rem;
 }
 .task-communication,
@@ -812,7 +814,7 @@ a.data-additional:active {
     border-radius: 10px;
 }
 .comments {
-    height: 30rem;
+    max-height: 30rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -830,6 +832,7 @@ a.data-additional:active {
 }
 .comment-info {
     display: flex;
+    flex-direction: row-reverse;
     justify-content: space-between;
     align-items: center;
 }
@@ -866,6 +869,8 @@ a.data-additional:active {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
+    grid-auto-flow: dense;
+    direction: rtl;
 }
 .task-info-title {
     font-size: 1.6rem;
@@ -879,7 +884,7 @@ a.data-additional:active {
 }
 
 .task-priority {
-    width: 7rem;
+    width: 8rem;
     font-size: 1.4rem;
     display: flex;
     justify-content: center;
@@ -906,6 +911,7 @@ a.data-additional:active {
     border-radius: 1.7rem;
     font-weight: 600;
     display: flex;
+    flex-direction: row-reverse;
     justify-content: center;
     align-items: center;
 }
@@ -955,6 +961,7 @@ a.data-additional:active {
 .user-lines {
     width: 100%;
     display: flex;
+    flex-direction: row-reverse;
     flex-direction: column;
     align-items: center;
     list-style: none;
@@ -969,6 +976,7 @@ a.data-additional:active {
     width: 100%;
     display: flex;
     align-items: center;
+    flex-direction: row-reverse;
     justify-content: space-between;
     gap: 3rem;
 }

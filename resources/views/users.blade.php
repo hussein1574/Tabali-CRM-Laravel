@@ -1,9 +1,9 @@
 @extends('layouts.app')
-@section('title', 'Users')
+@section('title', __('messages.users'))
 @section('username', Auth::user()->name)
 
 @section('heading-bar')
-<h1 class="main-heading"><a class='heading-link' href="/users">Users</a></h1>
+<h1 class="main-heading"><a class='heading-link' href="/users">{{__('messages.users')}}</a></h1>
 @endsection
 
 @php
@@ -41,9 +41,10 @@ $lastPage = $users->lastPage();
     <form class="search" method="GET" action="/users">
         @if(request()->query('search'))
         <input class="input-search" type="text" id="search" value='{{request()->query('search')}}'
-            placeholder="Search for team" name="search" />
+            placeholder="{{__('messages.searchForUser')}}" name="search" />
         @else
-        <input class="input-search" type="text" id="search" placeholder="Search for a user" name="search" />
+        <input class="input-search" type="text" id="search" placeholder="{{__('messages.searchForUser')}}"
+            name="search" />
         @endif
         <button class="btn-search">
             <ion-icon name="search-outline"></ion-icon>
@@ -55,7 +56,7 @@ $lastPage = $users->lastPage();
         @if(count($users) == 0)
         <div class="modal no-box-shadow margin-top-medium">
             <ion-icon class='danger-icon' name="alert-outline"></ion-icon>
-            <h2 class="form-title">No Users Found</h2>
+            <h2 class="form-title">{{__('messages.noUsersFound')}}</h2>
         </div>
         @else
         <ul class="page-data-list">
@@ -67,12 +68,15 @@ $lastPage = $users->lastPage();
                 </div>
                 <div class="right-part">
                     <div class="role user-active">
-                        <h3 class="data-role-title">State</h3>
-                        <p class="data-role-desc">{{$user['is_activated'] ? 'Activated' : 'Not Activated'}}</p>
+                        <h3 class="data-role-title">{{__('messages.state')}}</h3>
+                        <p class="data-role-desc">
+                            {{$user['is_activated'] ? __('messages.active') : __('messages.nonActive')}}
+                        </p>
                     </div>
                     <div class="role user-role">
-                        <h3 class="data-role-title">Role</h3>
-                        <p class="data-role-desc">{{$user['role']}}
+                        <h3 class="data-role-title">{{__('messages.role')}}</h3>
+                        <p class="data-role-desc">
+                            {{$user['role'] == 'User' ? __('messages.user') : __('messages.admin') }}
                         </p>
                     </div>
                     <form>
@@ -138,35 +142,35 @@ $lastPage = $users->lastPage();
 @section('modals')
 <div class="modal-holder">
     <div class="modal">
-        <h2 class="form-title">Edit User</h2>
+        <h2 class="form-title">{{__('messages.editUser')}}</h2>
         <form class="sign-form" method="POST" action="/edit-user">
             @csrf
             @method('put')
             <input hidden id='user_id' name='user_id' value="" />
             <div class="input-holder">
-                <label class="input-label" for="name">Name</label>
+                <label class="input-label" for="name">{{__('messages.name')}}</label>
                 <input class="input-box" id="name" type="text" value="Joe Bloogs" name="name" required />
             </div>
             <div class="input-holder">
-                <label class="input-label" for="email">Email address</label>
+                <label class="input-label" for="email">{{__('messages.email')}}</label>
                 <input class="input-box" id="email" type="email" value="joe@tabali.com" name="email" required />
             </div>
             <div class="input-holder">
-                <label class="input-label" for="role">Role</label>
+                <label class="input-label" for="role">{{__('messages.role')}}</label>
                 <select class="input-box" name="role" id="role">
-                    <option value="Admin">Adminstartor</option>
-                    <option value="User">User</option>
+                    <option value="Admin">{{__('messages.admin')}}</option>
+                    <option value="User">{{__('messages.user')}}</option>
                 </select>
             </div>
             <div class="input-holder">
-                <label class="input-label" for="active">Activation</label>
+                <label class="input-label" for="active">{{__('messages.state')}}</label>
                 <select class="input-box" name="active" id="active">
-                    <option value="active">Active</option>
-                    <option value="not-active">Not Active</option>
+                    <option value="active">{{__('messages.active')}}</option>
+                    <option value="not-active">{{__('messages.nonActive')}}</option>
                 </select>
             </div>
             <button class="btn btn-add">
-                Edit
+                {{__('messages.edit')}}
                 <ion-icon class="modal-icon" name="paper-plane-outline"></ion-icon>
             </button>
         </form>

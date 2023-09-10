@@ -133,7 +133,7 @@ class TaskController extends Controller
     {
         $credentials = $request->validate([
             'title' => ['required', 'min:5', 'max:255'],
-            'description' => ['required', 'min:50', 'max:5000'],
+            'description' => ['required', 'min:10', 'max:5000'],
             'deadline' => [
                 'required', 'date',
             ]

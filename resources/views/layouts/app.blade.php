@@ -69,9 +69,6 @@
           </picture>
         </a>
         <div class="right-heading">
-          <p class="welcome-title white-font hide"><span class='smaller-font'>{{__('messages.welcome')}}</span>
-            <span>@yield('username')</span>
-          </p>
           <form class="language-form" method='POST' action="{{route('change-locale')}}">
             @csrf
             @method('POST')
@@ -84,6 +81,10 @@
               </option>
             </select>
           </form>
+          <p class="welcome-title white-font hide"><span class='smaller-font'>{{__('messages.welcome')}}</span>
+            <span>@yield('username')</span>
+          </p>
+
           <form method="POST" action="/logout">
             @csrf
             @method('POST')

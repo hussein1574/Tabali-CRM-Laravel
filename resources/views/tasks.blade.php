@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Tasks')
+@section('title', __('messages.tasks'))
 @section('username', Auth::user()->name)
 
 @php
@@ -11,9 +11,9 @@ $isAdmin = Auth::user()->role == 'Admin'
 @endphp
 
 @section('heading-bar')
-<h1 class="main-heading"><a class='heading-link' href="/tasks">Tasks</a></h1>
+<h1 class="main-heading"><a class='heading-link' href="/tasks">{{__('messages.tasks')}}</a></h1>
 @if($isAdmin || $isAdminInTeam)
-<button class="btn btn--new">New task</button>
+<button class="btn btn--new">{{__('messages.newTask')}}</button>
 @endif
 @endsection
 
@@ -47,16 +47,20 @@ $isAdmin = Auth::user()->role == 'Admin'
 
 <section class="search-section">
     <div class="tabs">
-        <a class="tab @if($filter === 'Opened') tab-cta @endif" href="{{$search}}filter=Opened">Active</a>
-        <a class="tab @if($filter === 'Pending') tab-cta @endif" href="{{$search}}filter=Pending">Pending</a>
-        <a class="tab @if($filter === 'Closed') tab-cta @endif" href="{{$search}}filter=Closed">Closed</a>
+        <a class="tab @if($filter === 'Opened') tab-cta @endif"
+            href="{{$search}}filter=Opened">{{__('messages.activeFilter')}}</a>
+        <a class="tab @if($filter === 'Pending') tab-cta @endif"
+            href="{{$search}}filter=Pending">{{__('messages.pendingFilter')}}</a>
+        <a class="tab @if($filter === 'Closed') tab-cta @endif"
+            href="{{$search}}filter=Closed">{{__('messages.closedFilter')}}</a>
     </div>
     <form class="search" method="GET" action="/tasks">
         @if(request()->query('search'))
         <input class="input-search" type="text" id="search" value='{{request()->query('search')}}'
-            placeholder="Search for team" name="search" />
+            placeholder="{{__('messages.searchForTask')}}" name="search" />
         @else
-        <input class="input-search" type="text" id="search" placeholder="Search for task" name="search" />
+        <input class="input-search" type="text" id="search" placeholder="{{__('messages.searchForTask')}}"
+            name="search" />
         @endif
         <button class="btn-search">
             <ion-icon name="search-outline"></ion-icon>
@@ -68,7 +72,7 @@ $isAdmin = Auth::user()->role == 'Admin'
         @if(count($tasks) == 0)
         <div class="modal no-box-shadow margin-top-medium">
             <ion-icon class='danger-icon' name="alert-outline"></ion-icon>
-            <h2 class="form-title">No Tasks Found</h2>
+            <h2 class="form-title">{{__('messages.noTasksFound')}}</h2>
         </div>
         @else
         <ul class="page-data-list">
@@ -81,15 +85,17 @@ $isAdmin = Auth::user()->role == 'Admin'
                 </div>
                 <div class="right-part">
                     <div class="role">
-                        <h3 class="data-role-title">Status</h3>
-                        <p class="data-role-desc">{{$task['status']}}</p>
+                        <h3 class="data-role-title">{{__('messages.status')}}</h3>
+                        <p class="data-role-desc">@if($task['status'] === 'Opened') {{__('messages.activeFilter')}}
+                            @elseif($task['status'] === 'Pending') {{__('messages.pendingFilter')}} @else
+                            {{__('messages.closedFilter')}} @endif</p>
                     </div>
                     <div class="role">
-                        <h3 class="data-role-title">Last edit</h3>
+                        <h3 class="data-role-title">{{__('messages.lastEdit')}}</h3>
                         <p class="data-role-desc">{{\Carbon\Carbon::parse($task['updated_at'])->toDateString();}}</p>
                     </div>
                     <div class="role">
-                        <h3 class="data-role-title">Deadline</h3>
+                        <h3 class="data-role-title">{{__('messages.taskDeadline')}}</h3>
                         <p class="data-role-desc">{{\Carbon\Carbon::parse($task['deadline'])->toDateString();}}</p>
                     </div>
                 </div>
@@ -149,32 +155,32 @@ $isAdmin = Auth::user()->role == 'Admin'
 @section('modals')
 <div class="modal-holder">
     <div class="modal">
-        <h2 class="form-title">Add a new task</h2>
+        <h2 class="form-title">{{__('messages.newTask')}}</h2>
         <form class="sign-form" method='post' action='/add-task'>
             @csrf
             @method('POST')
             <div class="input-holder">
-                <label class="input-label" for="title">Task title</label>
+                <label class="input-label" for="title">{{__('messages.taskTitle')}}</label>
                 <input class="input-box" id="title" type="text" name="title" required />
             </div>
             <div class="input-holder">
-                <label class="input-label" for="description">Task description</label>
+                <label class="input-label" for="description">{{__('messages.taskDesc')}}</label>
                 <textarea class="input-box" id="description" name="description" rows="5" required></textarea>
             </div>
             <div class="input-holder">
-                <label class="input-label" for="piority">Task piority</label>
+                <label class="input-label" for="piority">{{__('messages.taskPriority')}}</label>
                 <select class="input-box" name="piority" id="piority">
-                    <option value="low">Low</option>
-                    <option value="normal">Normal</option>
-                    <option value="severe">Severe</option>
+                    <option value="low">{{__('messages.low')}}</option>
+                    <option value="normal">{{__('messages.normal')}}</option>
+                    <option value="severe">{{__('messages.severe')}}</option>
                 </select>
             </div>
             <div class="input-holder">
-                <label class="input-label" for="deadline">Task deadline</label>
+                <label class="input-label" for="deadline">{{__('messages.taskDeadline')}}</label>
                 <input class="input-box" id="deadline" type="datetime-local" name="deadline" required />
             </div>
             <button class="btn btn-add">
-                Add
+                {{__('messages.add')}}
                 <ion-icon class="modal-icon" name="paper-plane-outline"></ion-icon>
             </button>
         </form>
