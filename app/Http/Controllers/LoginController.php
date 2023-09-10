@@ -24,7 +24,7 @@ class LoginController extends Controller
             'password' => ['required'],
         ]);
 
-        if (Auth::attempt(['email' => $credentials['email'], 'password' => $credentials['password']])) {
+        if (Auth::attempt(['email' => $credentials['email'], 'password' => $credentials['password']], $request->remember)) {
             if (!Auth::user()->is_activated) {
                 $this->logout($request);
                 return back()->withErrors([

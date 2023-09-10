@@ -71,6 +71,15 @@ body {
     display: flex;
     flex-direction: column;
 }
+.input-holder-check-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5rem;
+}
+.input-checkbox {
+    transform: scale(1.5);
+}
 
 .input-label {
     color: #111;
