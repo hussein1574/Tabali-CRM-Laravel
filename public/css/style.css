@@ -71,6 +71,15 @@ body {
     display: flex;
     flex-direction: column;
 }
+.input-holder-check-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5rem;
+}
+.input-checkbox {
+    transform: scale(1.5);
+}
 
 .input-label {
     color: #111;
@@ -78,6 +87,14 @@ body {
     font-size: 1.4rem;
     line-height: 1.5;
     font-weight: 500;
+}
+.language-box {
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 1.5rem;
+    padding: 0.8rem 1.5rem;
+    width: 11rem;
+    border-radius: 7px;
 }
 .input-box {
     font-family: inherit;
