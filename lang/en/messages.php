@@ -3,13 +3,16 @@
 // lang/en/messages.php
 
 return [
+    'logout' => 'Logout',
+    'english' => 'English',
+    'arabic' => 'Arabic',
     'copyrights' => 'Copyright © 2023 by Hussein Medhat, Inc. All rights reserved.',
     'success' => 'success',
     'error' => 'Error',
     'dashboard' => 'Dashboard',
     'teams' => 'Teams',
     'tasks' => 'Tasks',
-    'users' => 'Users',
+    'usersTitle' => 'Users',
     'welcome' => 'Welome',
     'deadlines' => 'Today deadlines',
     'members' => 'Team members',

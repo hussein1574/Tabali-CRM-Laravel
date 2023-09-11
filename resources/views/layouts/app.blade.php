@@ -41,7 +41,7 @@
           </a>
           <ul class="nav-items">
             <li class='nav-item title appear-mobile'>
-              <p class="welcome-title-mobile"><span class='smaller-font-mobile'>Welcome</span>
+              <p class="welcome-title-mobile"><span class='smaller-font-mobile'>{{__('messages.welcome')}}</span>
                 <span>@yield('username')</span>
               </p>
             </li>
@@ -54,8 +54,18 @@
             </li>
             <li class="nav-item @if(Route::is('tasks') || Route::is('task')) nav-item-cta @endif"><a
                 href="/tasks">{{__('messages.tasks')}}</a></li>
-            <li class="nav-item @if(Auth::user()->role == 'User')  hidden @endif">
-              <a href="/users">{{__('messages.users')}}</a>
+            <li
+              class="nav-item @if(Route::is('users')) nav-item-cta @endif @if(Auth::user()->role == 'User')  hidden @endif">
+              <a href="/users">{{__('messages.usersTitle')}}</a>
+            </li>
+            <li class="nav-item logout-appear-mobile">
+              <form method="POST" action="/logout">
+                @csrf
+                @method('POST')
+                <button title="Logout" class='logout-nav'>
+                  {{__('messages.logout')}}
+                </button>
+              </form>
             </li>
             <li class='nav-item empty-li'>
             </li>
@@ -74,10 +84,10 @@
             @method('POST')
             <select class="language-box" name="locale" id="locale">
               <option @if(session('locale')=='en' ) selected @endif value="en">
-                En
+                <span class='language-name'>{{__('messages.english')}}</span>
               </option>
               <option @if(session('locale')=='ar' ) selected @endif value="ar">
-                Ar
+                <span class='language-name'>{{__('messages.arabic')}}</span>
               </option>
             </select>
           </form>
@@ -85,7 +95,7 @@
             <span>@yield('username')</span>
           </p>
 
-          <form method="POST" action="/logout">
+          <form method="POST" class='logout-form' action="/logout">
             @csrf
             @method('POST')
             <button title="Logout" class="profile">

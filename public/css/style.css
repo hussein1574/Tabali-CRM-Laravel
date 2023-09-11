@@ -234,6 +234,15 @@ footer {
     justify-content: center;
     gap: 6.5rem;
 }
+.logout-nav {
+    border: none;
+    background-color: transparent;
+    text-decoration: none;
+    color: #111;
+    font-size: 4rem;
+    font-weight: 600;
+    transition: all 0.3s;
+}
 
 .nav-item a,
 .nav-item a:link,
@@ -252,7 +261,7 @@ footer {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 2rem;
+    gap: 3rem;
 }
 .white-font {
     color: #fff !important;
@@ -1134,6 +1143,11 @@ a.data-additional:active {
 
 .appear-mobile {
     display: none;
+    top: 1.5%;
+    right: 5%;
+}
+.logout-appear-mobile {
+    display: none;
 }
 .input-holder-check-box {
     display: flex;
@@ -1148,13 +1162,48 @@ a.data-additional:active {
     font-family: inherit;
     font-weight: 600;
     font-size: 1.5rem;
-    padding: 0.8rem 1.5rem;
-    width: 11rem;
     border-radius: 7px;
+    border: none;
+    background: transparent;
+    color: white;
+    padding: 1rem 0;
+    width: 6rem;
+}
+.language-box option {
+    color: #111;
+}
+
+select {
+    appearance: none;
+    /* safari */
+    -webkit-appearance: none;
+    /* other styles for aesthetics */
+    width: 100%;
+    font-size: 1.15rem;
+    padding: 0.675em 6em 0.675em 1em;
+    background-color: #fff;
+    border: 1px solid #caced1;
+    border-radius: 0.25rem;
+    color: #000;
+    cursor: pointer;
 }
 .language-form {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
+    gap: 1rem;
+    position: relative;
+}
+
+.language-form::after {
+    --size: 0.7rem;
+    content: "";
+    position: absolute;
+    right: -28%;
+    pointer-events: none;
+    border-left: var(--size) solid transparent;
+    border-right: var(--size) solid transparent;
+    border-top: var(--size) solid white;
+    top: 44%;
 }

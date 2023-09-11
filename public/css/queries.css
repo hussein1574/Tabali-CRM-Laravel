@@ -1,3 +1,11 @@
+@media (max-width: 80em) {
+    .smaller-font {
+        font-size: 1rem;
+    }
+    .welcome-title {
+        font-size: 1.3rem;
+    }
+}
 @media (max-width: 64em) {
     html {
         font-size: 50%;
@@ -6,6 +14,7 @@
         margin-top: 1rem;
         height: 15vh;
     }
+
     .page-data-list {
         margin: 0;
         height: 65vh;
@@ -84,7 +93,6 @@
 @media (max-width: 50em) {
     .language-box {
         padding: 1rem 0;
-        width: 6rem;
     }
     html {
         font-size: 43.75%;
@@ -96,15 +104,16 @@
         display: none;
     }
 }
-@media (max-width: 27em) {
+@media (max-width: 44em) {
     html {
         font-size: 37.5%;
     }
     .appear-mobile {
         display: inline-block;
         position: absolute;
-        top: 1.5%;
-        right: 5%;
+    }
+    .logout-appear-mobile {
+        display: inline-block;
     }
     .page-data-list {
         margin: 0;
@@ -134,6 +143,9 @@
         width: 20rem;
     }
     .logo-left {
+        display: none;
+    }
+    .logout-form {
         display: none;
     }
     .logo-center {
