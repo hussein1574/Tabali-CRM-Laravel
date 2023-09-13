@@ -1,0 +1,24 @@
+{
+    "icons": [
+        {
+            "src": "imgs/128Logo.ico",
+            "type": "image/x-icon",
+            "sizes": "128x128"
+        },
+        {
+            "src": "imgs/192Logo.ico",
+            "type": "image/x-icon",
+            "sizes": "192x192"
+        },
+        {
+            "src": "imgs/256.ico",
+            "type": "image/x-icon",
+            "sizes": "256x256"
+        },
+        {
+            "src": "imgs/512Logo.ico",
+            "type": "image/x-icon",
+            "sizes": "512x512"
+        }
+    ]
+}
