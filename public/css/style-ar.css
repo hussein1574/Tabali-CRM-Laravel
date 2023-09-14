@@ -400,6 +400,7 @@ footer {
     font-weight: 300;
     width: 26rem;
     text-align: right;
+    direction: rtl;
 }
 .data-role-title {
     color: #8e919b;
@@ -758,6 +759,7 @@ a.data-additional:active {
 
 #description {
     resize: none;
+    direction: rtl;
 }
 
 /** Task Page **/
@@ -790,6 +792,7 @@ a.data-additional:active {
     font-size: 1.6rem;
     font-weight: 500;
     line-height: 2rem; /* 125% */
+    direction: rtl;
 }
 .comment-form {
     border-radius: 1.7rem;
@@ -805,6 +808,7 @@ a.data-additional:active {
 .input-box--comment {
     width: 64rem;
     border-radius: 1.7rem;
+    direction: rtl;
 }
 .btn--add-comment {
     width: 20rem;
@@ -851,6 +855,7 @@ a.data-additional:active {
     font-size: 1.6rem;
     font-weight: 500;
     line-height: 2rem; /* 125% */
+    direction: rtl;
 }
 
 .task-control {
