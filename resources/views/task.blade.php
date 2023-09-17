@@ -3,12 +3,21 @@
 @section('username', Auth::user()->name)
 
 @php
-$isAdmin = Auth::user()->role == 'Admin'
+$isAdmin = Auth::user()->role == 'Admin';
+
+$deadline = \Carbon\Carbon::parse($task['deadline']);
+$today = \Carbon\Carbon::today();
+
 @endphp
 
 
 @section('heading-bar')
-<h1 class="main-heading"><a class='heading-link' href="/task?id={{$task['id']}}">{{$task['name']}}</a></h1>
+<div class="heading-bar @if ($deadline->isToday()) deadline-title--today @endif 
+    @if ($deadline->lt($today) && $task['status'] != 'Closed') deadline-title--passed @endif">
+    <h1 class="main-heading">
+        <a class='heading-link' href="/task?id={{$task['id']}}">{{$task['name']}}</a>
+    </h1>
+</div>
 @endsection
 
 

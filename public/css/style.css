@@ -1217,3 +1217,9 @@ select {
     border-radius: 10px;
     margin-bottom: 0.2rem;
 }
+.deadline-title--passed {
+    background-color: rgba(184, 39, 44, 0.3);
+}
+.deadline-title--today {
+    background-color: rgba(243, 165, 29, 0.3);
+}

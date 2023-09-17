@@ -3,7 +3,9 @@
 @section('username', Auth::user()->name)
 
 @section('heading-bar')
-<h1 class="main-heading"><a class='heading-link' href="/users">{{__('messages.usersTitle')}}</a></h1>
+<div class="heading-bar">
+    <h1 class="main-heading"><a class='heading-link' href="/users">{{__('messages.usersTitle')}}</a></h1>
+</div>
 @endsection
 
 @php

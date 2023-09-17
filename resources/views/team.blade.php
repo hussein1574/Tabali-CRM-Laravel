@@ -12,7 +12,9 @@ $team['id'])->first()->team_role == 'Team Admin';
 @section('username', Auth::user()->name)
 
 @section('heading-bar')
-<h1 class="main-heading"><a class='heading-link' href="/team?id={{$team['id']}}">{{$team['name']}}</a></h1>
+<div class="heading-bar">
+    <h1 class="main-heading"><a class='heading-link' href="/team?id={{$team['id']}}">{{$team['name']}}</a></h1>
+</div>
 @if($isAdmin)
 <button class="btn btn--new">{{__('messages.addMember')}}</button>
 @endif

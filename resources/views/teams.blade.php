@@ -9,10 +9,12 @@ $isAdmin = Auth::user()->role == 'Admin'
 @endphp
 
 @section('heading-bar')
-<h1 class="main-heading"><a class='heading-link' href="/teams">{{__('messages.teams')}}</a></h1>
-@if($isAdmin)
-<button class="btn btn--new">{{__('messages.newTeam')}}</button>
-@endif
+<div class="heading-bar">
+    <h1 class="main-heading"><a class='heading-link' href="/teams">{{__('messages.teams')}}</a></h1>
+    @if($isAdmin)
+    <button class="btn btn--new">{{__('messages.newTeam')}}</button>
+    @endif
+</div>
 @endsection
 
 

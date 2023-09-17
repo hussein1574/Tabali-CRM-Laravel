@@ -12,15 +12,17 @@ $isAdmin = Auth::user()->role == 'Admin';
 @endphp
 
 @section('heading-bar')
-@if($projectName === '')
-<h1 class="main-heading"><a class='heading-link' href="/tasks">{{__('messages.tasks')}}</a></h1>
-@else
-<h1 class="main-heading"><a class='heading-link'
-        href="/tasks?project={{request()->query('project')}}">{{$projectName}}</a></h1>
-@endif
-@if($isAdmin || $isAdminInTeam)
-<button class="btn btn--new">{{__('messages.newTask')}}</button>
-@endif
+<div class="heading-bar">
+    @if($projectName === '')
+    <h1 class="main-heading"><a class='heading-link' href="/tasks">{{__('messages.tasks')}}</a></h1>
+    @else
+    <h1 class="main-heading"><a class='heading-link'
+            href="/tasks?project={{request()->query('project')}}">{{$projectName}}</a></h1>
+    @endif
+    @if($isAdmin || $isAdminInTeam)
+    <button class="btn btn--new">{{__('messages.newTask')}}</button>
+    @endif
+</div>
 @endsection
 
 

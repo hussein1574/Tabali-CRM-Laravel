@@ -3,7 +3,9 @@
 @section('username', Auth::user()->name)
 
 @section('heading-bar')
-<h1 class="main-heading">{{__('messages.dashboard')}}</h1>
+<div class="heading-bar">
+    <h1 class="main-heading">{{__('messages.dashboard')}}</h1>
+</div>
 @endsection
 
 @php

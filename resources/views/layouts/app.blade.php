@@ -118,9 +118,9 @@
         </div>
       </div>
 
-      <div class="heading-bar">
-        @yield('heading-bar')
-      </div>
+
+      @yield('heading-bar')
+
     </header>
     <main>
       @yield('main')

@@ -18,7 +18,7 @@ return [
     'deadlines' => 'Today deadlines',
     'members' => 'Team members',
     'curTasks' => 'Current Tasks',
-    'deadline' => 'deadline',
+    'deadline' => 'Deadline',
     'noTeams' => 'Not In Any Team Yet',
     'noProjects' => 'No Projects Yet',
     'noTasks' => 'No Tasks Yet',

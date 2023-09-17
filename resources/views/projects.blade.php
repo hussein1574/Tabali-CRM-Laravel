@@ -8,8 +8,10 @@ $lastPage = $projects->lastPage();
 @endphp
 
 @section('heading-bar')
-<h1 class="main-heading"><a class='heading-link' href="/projects">{{__('messages.projects')}}</a></h1>
-<button class="btn btn--new">{{__('messages.newProject')}}</button>
+<div class="heading-bar">
+    <h1 class="main-heading"><a class='heading-link' href="/projects">{{__('messages.projects')}}</a></h1>
+    <button class="btn btn--new">{{__('messages.newProject')}}</button>
+</div>
 @endsection
 
 
