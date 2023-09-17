@@ -62,6 +62,18 @@ $isAdmin = Auth::user()->role == 'Admin'
                     </p>
                 </div>
                 <p class="comment-data">{{$comment['comment']}}</p>
+                @if($comment->user->id == Auth::user()->id)
+                <div class='comment-delete'>
+                    <form method="POST" action="/delete-comment">
+                        @csrf
+                        @method('DELETE')
+                        <input hidden name='comment_id' id='comment_id' value={{$comment['id']}} />
+                        <button class="settings">
+                            <ion-icon class="settings-icon" name="trash-outline"></ion-icon>
+                        </button>
+                    </form>
+                </div>
+                @endif
             </div>
             @endforeach
         </div>

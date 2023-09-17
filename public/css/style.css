@@ -630,6 +630,7 @@ a.data-additional:active {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 10rem;
 }
 .left-part {
     width: 50%;
@@ -819,7 +820,7 @@ a.data-additional:active {
 }
 .comment {
     width: 68rem;
-    height: 13.4rem;
+    min-height: 13.4rem;
     border-radius: 1.7rem;
     background: #f6f6f6;
     padding: 2rem;

@@ -59,6 +59,7 @@ Route::middleware('auth')->group(function () {
 
     // Comments Routes
     Route::post('/add-comment', [CommentController::class, 'addComment'])->name('add-comment');
+    Route::delete('/delete-comment', [CommentController::class, 'deleteComment'])->name('delete-comment');
 
     //Locale Routs
     Route::post('/change-locale', [LocaleController::class, 'changeLocale'])->name('change-locale');

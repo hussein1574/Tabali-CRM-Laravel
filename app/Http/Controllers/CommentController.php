@@ -35,4 +35,22 @@ class CommentController extends Controller
             }
         }
     }
+    public function deleteComment(Request $request): RedirectResponse
+    {
+        $comment = Comment::where('id', $request->comment_id);
+        if ($comment) {
+            $comment->delete();
+            if (App::isLocale('en')) {
+                return redirect()->back()->with('success', 'Comment deleted successfully.');
+            } else {
+                return redirect()->back()->with('نجاح', 'تم حذف تعليقك');
+            }
+        } else {
+            if (App::isLocale('en')) {
+                return redirect()->back()->with('error', 'Failed to delete comment.');
+            } else {
+                return redirect()->back()->with('خطأ', 'حدث خطأ اثناء حذف تعليقك, رجاء اعادة المحاولة');
+            }
+        }
+    }
 }
