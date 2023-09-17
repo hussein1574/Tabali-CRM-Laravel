@@ -1,15 +1,18 @@
 @extends('layouts.app')
-@section('title', __('messages.usersTitle'))
+@section('title', __('messages.projects'))
 @section('username', Auth::user()->name)
 
+@php
+$currentPage = $projects->currentPage();
+$lastPage = $projects->lastPage();
+@endphp
+
 @section('heading-bar')
-<h1 class="main-heading"><a class='heading-link' href="/users">{{__('messages.usersTitle')}}</a></h1>
+<h1 class="main-heading"><a class='heading-link' href="/projects">{{__('messages.projects')}}</a></h1>
+<button class="btn btn--new">{{__('messages.newProject')}}</button>
 @endsection
 
-@php
-$currentPage = $users->currentPage();
-$lastPage = $users->lastPage();
-@endphp
+
 
 @section('main')
 @if (session(__('messages.success'))))
@@ -38,12 +41,12 @@ $lastPage = $users->lastPage();
 @endif
 
 <section class="search-section">
-    <form class="search" method="GET" action="/users">
+    <form class="search" method="GET" action="/projects">
         @if(request()->query('search'))
         <input class="input-search" type="text" id="search" value='{{request()->query('search')}}'
-            placeholder="{{__('messages.searchForUser')}}" name="search" />
+            placeholder="{{__('messages.searchForProject')}}" name="search" />
         @else
-        <input class="input-search" type="text" id="search" placeholder="{{__('messages.searchForUser')}}"
+        <input class="input-search" type="text" id="search" placeholder="{{__('messages.searchForProject')}}"
             name="search" />
         @endif
         <button class="btn-search">
@@ -52,45 +55,36 @@ $lastPage = $users->lastPage();
     </form>
 </section>
 <section class="page-items-section">
+    @if(count($projects) == 0)
+    <div class="modal no-box-shadow margin-top-medium">
+        <ion-icon class='danger-icon' name="alert-outline"></ion-icon>
+        <h2 class="form-title">{{__('messages.noProjectsFound')}}</h2>
+    </div>
+    @else
     <div class="page-items">
-        @if(count($users) == 0)
-        <div class="modal no-box-shadow margin-top-medium">
-            <ion-icon class='danger-icon' name="alert-outline"></ion-icon>
-            <h2 class="form-title">{{__('messages.noUsersFound')}}</h2>
-        </div>
-        @else
         <ul class="page-data-list">
-            @foreach($users as $user)
+            @foreach($projects->items() as $project)
             <li class="page-data-item">
-                <div class="left-part">
-                    <h3 class="data-title">{{$user['name']}}</h3>
-                    <p class="data-desc">{{$user['email']}}</p>
+                <div>
+                    <a href="/tasks?project={{$project['id']}}" class="page-data-title">{{$project['name']}}</a>
                 </div>
                 <div class="right-part">
-                    <div class="role user-active">
-                        <h3 class="data-role-title">{{__('messages.state')}}</h3>
-                        <p class="data-role-desc">
-                            {{$user['is_activated'] ? __('messages.active') : __('messages.nonActive')}}
-                        </p>
-                    </div>
-                    <div class="role user-role">
-                        <h3 class="data-role-title">{{__('messages.role')}}</h3>
-                        <p class="data-role-desc">
-                            {{$user['role'] == 'User' ? __('messages.user') : __('messages.admin') }}
-                        </p>
-                    </div>
-                    <form>
-                        <input hidden id='user_id' name='user_id' value={{$user['id']}} />
-                        <button class="settings user-settings">
-                            <ion-icon class="settings-icon" name="create-outline"></ion-icon>
+                    <p class="page-data-date">{{__('messages.createdAt')}}:
+                        {{\Carbon\Carbon::parse($project['created_at'])->toDateString()}}</p>
+                    <form method="POST" action="/delete-project">
+                        @csrf
+                        @method('DELETE')
+                        <input hidden name='project_id' id='project_id' value={{$project['id']}} />
+                        <button class="settings">
+                            <ion-icon class="settings-icon" name="trash-outline"></ion-icon>
                         </button>
                     </form>
                 </div>
             </li>
             @endforeach
         </ul>
-        @endif
     </div>
+    @endif
 </section>
 @if($lastPage != 1)
 <section class="pagination-section">
@@ -142,35 +136,16 @@ $lastPage = $users->lastPage();
 @section('modals')
 <div class="modal-holder">
     <div class="modal">
-        <h2 class="form-title">{{__('messages.editUser')}}</h2>
-        <form class="sign-form" method="POST" action="/edit-user">
+        <h2 class="form-title">{{__('messages.createProject')}}</h2>
+        <form class="sign-form" method="POST" action="/add-project">
             @csrf
-            @method('put')
-            <input hidden id='user_id' name='user_id' value="" />
+            @method('POST')
             <div class="input-holder">
-                <label class="input-label" for="name">{{__('messages.name')}}</label>
-                <input class="input-box" id="name" type="text" value="Joe Bloogs" name="name" required />
-            </div>
-            <div class="input-holder">
-                <label class="input-label" for="email">{{__('messages.email')}}</label>
-                <input class="input-box" id="email" type="email" value="joe@tabali.com" name="email" required />
-            </div>
-            <div class="input-holder">
-                <label class="input-label" for="role">{{__('messages.role')}}</label>
-                <select class="input-box" name="role" id="role">
-                    <option value="Admin">{{__('messages.admin')}}</option>
-                    <option value="User">{{__('messages.user')}}</option>
-                </select>
-            </div>
-            <div class="input-holder">
-                <label class="input-label" for="active">{{__('messages.state')}}</label>
-                <select class="input-box" name="active" id="active">
-                    <option value="active">{{__('messages.active')}}</option>
-                    <option value="not-active">{{__('messages.nonActive')}}</option>
-                </select>
+                <label class="input-label" for="name">{{__('messages.projectName')}}</label>
+                <input class="input-box" id="name" type="text" name="name" required />
             </div>
             <button class="btn btn-add">
-                {{__('messages.edit')}}
+                {{__('messages.add')}}
                 <ion-icon class="modal-icon" name="paper-plane-outline"></ion-icon>
             </button>
         </form>

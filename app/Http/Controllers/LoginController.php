@@ -38,9 +38,10 @@ class LoginController extends Controller
                     ])->onlyInput('email');
                 }
             }
+            $request->session()->regenerate();
+            return redirect()->intended('dashboard');
         }
-        $request->session()->regenerate();
-        return redirect()->intended('dashboard');
+
         if (App::isLocale('en')) {
             return back()->withErrors([
                 'email' => 'The provided credentials do not match our records.',

@@ -24,8 +24,8 @@
             <input class="input-box" id="password" type="password" name="password" required />
         </div>
         <div class="input-holder-check-box">
-            <label class="input-label" for="remember">Remember me</label>
             <input class="input-checkbox" id="remember" type="checkbox" name="remember" />
+            <label class="input-label" for="remember">Remember me</label>
         </div>
         <button class="btn btn-sign-in">Sign in</button>
     </form>

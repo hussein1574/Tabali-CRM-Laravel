@@ -61,10 +61,15 @@ if(in_array(Auth::user()->name,$team['members'])) $teamMembersCount -= 1;
                 <h2 class="form-title">{{__('messages.noTasks')}}</h2>
             </div>
             @else
-            <ul class="data-list" @if(count($tasks)>= 4) scrollable @endif>
+            <ul class="data-list">
                 @foreach($tasks as $task)
+                @php
+                $deadline = \Carbon\Carbon::parse($task['deadline']);
+                $today = \Carbon\Carbon::today();
+                @endphp
                 @if($task['status'] != 'Closed')
-                <li class="data-item">
+                <li
+                    class="data-item @if ($deadline->isToday()) deadline--today @endif @if ($deadline->lt($today) && $task['status'] != 'Closed') deadline--passed @endif">
                     <a class='data-additional-right' href="/task?id={{$task['id']}}">
                         <h3 class="data-title">{{ $task['name'] }}</h3>
                         <p class="data-desc">{!! nl2br(Str::limit($task['description'], 100)) !!}</p>

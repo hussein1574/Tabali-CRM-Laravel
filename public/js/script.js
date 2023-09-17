@@ -158,6 +158,9 @@ addEventListenerIf(btnAddUser, "click", (e) => {
                     e.preventDefault();
                     const form = btnDeleteUser.closest("form");
                     const modal = btnDeleteUser.closest(".modal");
+                    const formTitle = modal.querySelector(".form-title");
+                    const isArabic =
+                        formTitle.textContent === "الاعضاء الحاليين";
                     const liElement = form.closest("li");
                     const ulElement = liElement.closest("ul");
                     const requestLink = form.action;
@@ -199,17 +202,27 @@ addEventListenerIf(btnAddUser, "click", (e) => {
                             }, "");
                             participantsText.textContent = usersNames;
                             if (ulElement.childElementCount === 0) {
-                                participantsText.textContent =
-                                    "No participants";
+                                if (!isArabic)
+                                    participantsText.textContent =
+                                        "No participants";
+                                else
+                                    participantsText.textContent =
+                                        "لا يوجد اعضاء";
                                 const divElement =
                                     document.createElement("div");
                                 divElement.classList.add(
                                     "modal",
                                     "no-box-shadow"
                                 );
-                                divElement.innerHTML = `
+                                if (!isArabic)
+                                    divElement.innerHTML = `
         <ion-icon class='orange-icon' name="alert-outline"></ion-icon>
         <h3 class="form-title lighter-font">No participants Yet</h3>
+    `;
+                                else
+                                    divElement.innerHTML = `
+        <ion-icon class='orange-icon' name="alert-outline"></ion-icon>
+        <h3 class="form-title lighter-font">لا يوجد اعضاء</h3>
     `;
                                 modal.insertBefore(divElement, ulElement);
                                 ulElement.remove();

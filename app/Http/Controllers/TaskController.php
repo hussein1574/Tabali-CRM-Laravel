@@ -6,9 +6,11 @@ use Carbon\Carbon;
 use App\Models\Task;
 use App\Models\Team;
 use App\Models\User;
+use App\Models\Project;
 use App\Models\UsersTask;
 use App\Models\UsersTeam;
 use Illuminate\View\View;
+use App\Models\ProjectTask;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\App;
@@ -20,8 +22,11 @@ class TaskController extends Controller
     {
         $filterInput = $request->query('filter');
         $searchInput = $request->query('search');
+        $projectInput = $request->query('project');
         $recsPerPage = config('constants.RECS_PER_PAGE') - 1;
         $user = $request->user();
+        $projects = Project::get();
+        $projectName = '';
 
         //Get the teams where the user is Team Admin
         $teamsWhereUserIsAdmin = $user->userTeams()->where('team_role', 'Team Admin')->get();
@@ -30,6 +35,10 @@ class TaskController extends Controller
         $tasksQuery = '';
         if ($user->role === 'Admin') {
             $tasksQuery = Task::query();
+            if ($projectInput) {
+                $projectName = Project::where('id', $projectInput)->first()->name;
+                $tasksQuery = $this->getProjectTasks($projectInput);
+            }
         } else {
             $tasksIds = $user->userTasks()->pluck('task_id');
             $tasksQuery = Task::whereIn('id', $tasksIds);
@@ -39,7 +48,7 @@ class TaskController extends Controller
         if ($filterInput)
             $tasksQuery = $this->filter($filterInput, $tasksQuery);
         $tasks = $tasksQuery->paginate($recsPerPage);
-        return view('tasks', compact('tasks', 'isAdminInTeam'));
+        return view('tasks', compact('tasks', 'isAdminInTeam', 'projects', 'projectName'));
     }
     function search($searchInput, $tasksQuery)
     {
@@ -53,6 +62,11 @@ class TaskController extends Controller
     function filter($filterInput, $tasksQuery)
     {
         return $tasksQuery->where('status', $filterInput);
+    }
+    function getProjectTasks($projectId)
+    {
+        $taskIds = ProjectTask::where('project_id', $projectId)->get()->pluck('task')->pluck('id');
+        return Task::whereIn('id', $taskIds);
     }
     public function add(Request $request): RedirectResponse
     {
@@ -76,8 +90,13 @@ class TaskController extends Controller
             'user_id' => $request->user()->id,
             'task_role' => 'Task Owner'
         ]);
+        if ($request->project !== 'none')
+            $projectTask = ProjectTask::create([
+                'project_id' => $request->project,
+                'task_id' => $task->id
+            ]);
 
-        if ($taskUser) {
+        if ($taskUser && $projectTask) {
 
             if (App::isLocale('en')) {
                 return redirect()->route('tasks')->with('success', 'Task added successfully.');

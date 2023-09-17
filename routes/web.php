@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProjectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +26,11 @@ use App\Http\Controllers\DashboardController;
 Route::middleware('auth')->group(function () {
     // Dashboard Route
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Projects Routes
+    Route::get('/projects', [ProjectController::class, 'index'])->name('projects');
+    Route::post('/add-project', [ProjectController::class, 'add'])->name('add-project');
+    Route::delete('/delete-project', [ProjectController::class, 'delete'])->name('delete-project');
 
     // Teams Routes
     Route::get('/teams', [TeamController::class, 'index'])->name('teams');

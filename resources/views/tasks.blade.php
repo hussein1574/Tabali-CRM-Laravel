@@ -7,11 +7,17 @@ $currentPage = $tasks->currentPage();
 $lastPage = $tasks->lastPage();
 $search = request()->query('search') ? '?search='. request()->query('search') . '&' : '?';
 $filter = request()->query('filter');
-$isAdmin = Auth::user()->role == 'Admin'
+$project = request()->query('project') ? '&project=' . request()->query('project') : '';
+$isAdmin = Auth::user()->role == 'Admin';
 @endphp
 
 @section('heading-bar')
+@if($projectName === '')
 <h1 class="main-heading"><a class='heading-link' href="/tasks">{{__('messages.tasks')}}</a></h1>
+@else
+<h1 class="main-heading"><a class='heading-link'
+        href="/tasks?project={{request()->query('project')}}">{{$projectName}}</a></h1>
+@endif
 @if($isAdmin || $isAdminInTeam)
 <button class="btn btn--new">{{__('messages.newTask')}}</button>
 @endif
@@ -48,13 +54,15 @@ $isAdmin = Auth::user()->role == 'Admin'
 <section class="search-section">
     <div class="tabs">
         <a class="tab @if($filter === 'Opened') tab-cta @endif"
-            href="{{$search}}filter=Opened">{{__('messages.activeFilter')}}</a>
+            href="{{$search}}filter=Opened{{$project}}">{{__('messages.activeFilter')}}</a>
         <a class="tab @if($filter === 'Pending') tab-cta @endif"
-            href="{{$search}}filter=Pending">{{__('messages.pendingFilter')}}</a>
+            href="{{$search}}filter=Pending{{$project}}">{{__('messages.pendingFilter')}}</a>
         <a class="tab @if($filter === 'Closed') tab-cta @endif"
-            href="{{$search}}filter=Closed">{{__('messages.closedFilter')}}</a>
+            href="{{$search}}filter=Closed{{$project}}">{{__('messages.closedFilter')}}</a>
     </div>
     <form class="search" method="GET" action="/tasks">
+        <input hidden name='filter' id='filter' value='{{request()->query('filter')}}' />
+        <input hidden name='project' id='project' value='{{request()->query('project')}}' />
         @if(request()->query('search'))
         <input class="input-search" type="text" id="search" value='{{request()->query('search')}}'
             placeholder="{{__('messages.searchForTask')}}" name="search" />
@@ -77,7 +85,12 @@ $isAdmin = Auth::user()->role == 'Admin'
         @else
         <ul class="page-data-list">
             @foreach($tasks as $task)
-            <li class="page-data-item">
+            @php
+            $deadline = \Carbon\Carbon::parse($task['deadline']);
+            $today = \Carbon\Carbon::today();
+            @endphp
+            <li
+                class="page-data-item @if ($deadline->isToday()) deadline--today @endif @if ($deadline->lt($today) && $task['status'] != 'Closed') deadline--passed @endif">
                 <div class='left-part'>
                     <a href="/task?id={{$task['id']}}" class="page-data-title">{{$task['name']}}</a>
                     <p class="data-desc">{!! nl2br(wordwrap(Str::limit($task['description'], 100), 50, "\n", true)) !!}
@@ -167,6 +180,18 @@ $isAdmin = Auth::user()->role == 'Admin'
                 <label class="input-label" for="description">{{__('messages.taskDesc')}}</label>
                 <textarea class="input-box" id="description" name="description" rows="5" required></textarea>
             </div>
+            @if($isAdmin)
+            <div class="input-holder">
+                <label class="input-label" for="project">{{__('messages.project')}}</label>
+                <select class="input-box" name="project" id="project">
+                    <option value="none">{{__('messages.none')}}</option>
+                    @foreach($projects as $project)
+                    <option @if(request()->query('project') == $project['id']) selected @endif
+                        value='{{$project['id']}}'>{{$project['name']}}</option>
+                    @endforeach
+                </select>
+            </div>
+            @endif
             <div class="input-holder">
                 <label class="input-label" for="piority">{{__('messages.taskPriority')}}</label>
                 <select class="input-box" name="piority" id="piority">

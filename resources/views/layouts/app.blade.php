@@ -60,8 +60,13 @@
               class="nav-item @if(Route::is('teams') || Route::is('team') || Route::is('team-search'))  nav-item-cta @endif">
               <a href="/teams">{{__('messages.teams')}}</a>
             </li>
+            <li
+              class="nav-item @if(Route::is('projects')) nav-item-cta @endif @if(Auth::user()->role == 'User')  hidden @endif">
+              <a href="/projects">{{__('messages.projects')}}</a>
+            </li>
             <li class="nav-item @if(Route::is('tasks') || Route::is('task')) nav-item-cta @endif"><a
                 href="/tasks">{{__('messages.tasks')}}</a></li>
+
             <li
               class="nav-item @if(Route::is('users')) nav-item-cta @endif @if(Auth::user()->role == 'User')  hidden @endif">
               <a href="/users">{{__('messages.usersTitle')}}</a>
