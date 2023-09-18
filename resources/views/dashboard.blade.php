@@ -70,8 +70,8 @@ if(in_array(Auth::user()->name,$team['members'])) $teamMembersCount -= 1;
                 $today = \Carbon\Carbon::today();
                 @endphp
                 @if($task['status'] != 'Closed')
-                <li
-                    class="data-item @if ($deadline->isToday()) deadline--today @endif @if ($deadline->lt($today) && $task['status'] != 'Closed') deadline--passed @endif">
+                <li class="data-item @if ($deadline->isToday() && $task['status'] != 'Closed') deadline--today @endif 
+                    @if ($deadline->lt($today) && $task['status'] != 'Closed') deadline--passed @endif">
                     <a class='data-additional-right' href="/task?id={{$task['id']}}">
                         <h3 class="data-title">{{ $task['name'] }}</h3>
                         <p class="data-desc">{!! nl2br(Str::limit($task['description'], 100)) !!}</p>
@@ -92,7 +92,7 @@ if(in_array(Auth::user()->name,$team['members'])) $teamMembersCount -= 1;
                 <ion-icon class="data-card-icon team-icon" name="people-circle-outline"></ion-icon>
                 <h2 class="data-card-title">{{__('messages.teams')}}</h2>
             </header>
-            @if(count($teams) == 0)
+            @if(count($teams) == 0 || $teamMembersCount == 0)
             <div class="modal no-box-shadow">
                 <ion-icon class='green-icon ' name="alert-outline"></ion-icon>
                 <h2 class="form-title">{{__('messages.noTeams')}}</h2>

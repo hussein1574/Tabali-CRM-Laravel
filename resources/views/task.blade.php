@@ -12,10 +12,16 @@ $today = \Carbon\Carbon::today();
 
 
 @section('heading-bar')
-<div class="heading-bar @if ($deadline->isToday()) deadline-title--today @endif 
-    @if ($deadline->lt($today) && $task['status'] != 'Closed') deadline-title--passed @endif">
-    <h1 class="main-heading">
+<div class="heading-bar">
+    <h1 class="main-heading flex">
+        @if ($deadline->isToday() && $task['status'] != 'Closed')
+        <ion-icon class='danger-icon deadline-title--today' name="alert-circle-outline"></ion-icon>
+        @endif
+        @if ($deadline->lt($today) && $task['status'] !='Closed')
+        <ion-icon class='danger-icon deadline-title--passed' name="alert-circle-outline"></ion-icon>
+        @endif
         <a class='heading-link' href="/task?id={{$task['id']}}">{{$task['name']}}</a>
+
     </h1>
 </div>
 @endsection

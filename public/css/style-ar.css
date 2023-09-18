@@ -112,7 +112,6 @@ select:focus {
 }
 
 .btn-sign-in {
-    margin-top: 1.5rem;
     background-color: #169583;
     color: #fff;
     font-weight: 400;
@@ -128,6 +127,13 @@ select:focus {
     align-items: center;
     gap: 0.8rem;
     margin-top: 1.5rem;
+}
+.flex {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    align-items: center;
+    gap: 0.8rem;
 }
 .sign-text {
     font-size: 1.3rem;
@@ -1177,8 +1183,13 @@ a.data-additional:active {
 .input-holder-check-box {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 5rem;
+    align-self: flex-start;
+    gap: 1rem;
+    margin: 0.3rem 0;
+    margin-left: 3.5rem;
+}
+.remember {
+    color: #8a8e99;
 }
 .input-checkbox {
     transform: scale(1.5);
@@ -1192,6 +1203,7 @@ a.data-additional:active {
     background: transparent;
     color: white;
     padding: 1rem 0;
+    width: 7rem;
     text-align: right;
 }
 .language-box option {
@@ -1224,7 +1236,7 @@ select {
     --size: 0.7rem;
     content: "";
     position: absolute;
-    left: -20%;
+    left: 10%;
     pointer-events: none;
     border-left: var(--size) solid transparent;
     border-right: var(--size) solid transparent;
@@ -1244,8 +1256,8 @@ select {
     margin-bottom: 0.2rem;
 }
 .deadline-title--passed {
-    background-color: rgba(184, 39, 44, 0.3);
+    color: #b8272c;
 }
 .deadline-title--today {
-    background-color: rgba(243, 165, 29, 0.3);
+    color: #f3a51d;
 }

@@ -21,6 +21,7 @@ return [
     'deadline' => 'Deadline',
     'noTeams' => 'Not In Any Team Yet',
     'noProjects' => 'No Projects Yet',
+    'usersNames' => 'User names',
     'noTasks' => 'No Tasks Yet',
     'newTeam' => 'New team',
     'newProject' => 'New project',

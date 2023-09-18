@@ -99,15 +99,15 @@ class TaskController extends Controller
         if ($taskUser && $projectTask) {
 
             if (App::isLocale('en')) {
-                return redirect()->route('tasks')->with('success', 'Task added successfully.');
+                return redirect()->back()->with('success', 'Task added successfully.');
             } else {
-                return redirect()->route('tasks')->with('نجاح', 'تم اضافة المهمة بنجاح');
+                return redirect()->back()->with('نجاح', 'تم اضافة المهمة بنجاح');
             }
         } else {
             if (App::isLocale('en')) {
-                return redirect()->route('tasks')->with('error', 'Failed to add task.');
+                return redirect()->back()->with('error', 'Failed to add task.');
             } else {
-                return redirect()->route('tasks')->with('خطأ', 'حدث خطأ ما اثناء اضافة المهمة. الرجاء المحاولة مجددا');
+                return redirect()->back()->with('خطأ', 'حدث خطأ ما اثناء اضافة المهمة. الرجاء المحاولة مجددا');
             }
         }
     }

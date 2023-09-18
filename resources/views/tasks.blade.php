@@ -91,8 +91,8 @@ $isAdmin = Auth::user()->role == 'Admin';
             $deadline = \Carbon\Carbon::parse($task['deadline']);
             $today = \Carbon\Carbon::today();
             @endphp
-            <li
-                class="page-data-item @if ($deadline->isToday()) deadline--today @endif @if ($deadline->lt($today) && $task['status'] != 'Closed') deadline--passed @endif">
+            <li class="page-data-item @if ($deadline->isToday() && $task['status'] !='Closed') deadline--today @endif 
+                @if ($deadline->lt($today) && $task['status'] != 'Closed') deadline--passed @endif">
                 <div class='left-part'>
                     <a href="/task?id={{$task['id']}}" class="page-data-title">{{$task['name']}}</a>
                     <p class="data-desc">{!! nl2br(wordwrap(Str::limit($task['description'], 100), 50, "\n", true)) !!}

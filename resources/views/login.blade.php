@@ -25,9 +25,10 @@
         </div>
         <div class="input-holder-check-box">
             <input class="input-checkbox" id="remember" type="checkbox" name="remember" />
-            <label class="input-label" for="remember">Remember me</label>
+            <label class="input-label remember" for="remember">Remember me</label>
         </div>
         <button class="btn btn-sign-in">Sign in</button>
+
     </form>
     <div class="flex-container">
         <p class="sign-text">Dont have an account ?</p>

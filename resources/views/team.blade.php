@@ -14,10 +14,10 @@ $team['id'])->first()->team_role == 'Team Admin';
 @section('heading-bar')
 <div class="heading-bar">
     <h1 class="main-heading"><a class='heading-link' href="/team?id={{$team['id']}}">{{$team['name']}}</a></h1>
+    @if($isAdmin)
+    <button class="btn btn--new">{{__('messages.addMember')}}</button>
+    @endif
 </div>
-@if($isAdmin)
-<button class="btn btn--new">{{__('messages.addMember')}}</button>
-@endif
 @endsection
 
 
